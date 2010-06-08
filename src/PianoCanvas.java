@@ -387,6 +387,8 @@ public class PianoCanvas extends Canvas
      */
     public void keyPressed(int keyCode)
     {
+        boolean keyProcessed = true;
+
         switch(keyCode)
         {
             case KEY_NUM1:
@@ -436,9 +438,14 @@ public class PianoCanvas extends Canvas
             case KEY_POUND:
                 keyPressed[11] = true;
                 break;
+
+            default:
+                keyProcessed = false;
+                break;
         }
 
-        repaint();
+        if(keyProcessed)
+            repaint();
     }
 
     /**
@@ -448,6 +455,8 @@ public class PianoCanvas extends Canvas
      */
     public void keyReleased(int keyCode)
     {
+        boolean keyProcessed = true;
+
         switch(keyCode)
         {
             case KEY_NUM1:
@@ -497,8 +506,12 @@ public class PianoCanvas extends Canvas
             case KEY_POUND:
                 keyPressed[11] = false;
                 break;
+
+            default:
+                keyProcessed = false;
         }
 
-        repaint();
+        if(keyProcessed)
+            repaint();
     }
 }
