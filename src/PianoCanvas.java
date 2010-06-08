@@ -426,57 +426,20 @@ public class PianoCanvas extends Canvas
 
         switch(keyCode)
         {
-            case KEY_NUM1:
-                keyPressed[0] = true;
-                break;
+            case KEY_NUM1: keyPressed[0] = true; break;
+            case KEY_NUM2: keyPressed[1] = true; break;
+            case KEY_NUM3: keyPressed[2] = true; break;
+            case KEY_NUM4: keyPressed[3] = true; break;
+            case KEY_NUM5: keyPressed[4] = true; break;
+            case KEY_NUM6: keyPressed[5] = true; break;
+            case KEY_NUM7: keyPressed[6] = true; break;
+            case KEY_NUM8: keyPressed[7] = true; break;
+            case KEY_NUM9: keyPressed[8] = true; break;
+            case KEY_STAR: keyPressed[9] = true; break;
+            case KEY_NUM0: keyPressed[10] = true; break;
+            case KEY_POUND: keyPressed[11] = true; break;
 
-            case KEY_NUM2:
-                keyPressed[1] = true;
-                break;
-
-            case KEY_NUM3:
-                keyPressed[2] = true;
-                break;
-
-            case KEY_NUM4:
-                keyPressed[3] = true;
-                break;
-
-            case KEY_NUM5:
-                keyPressed[4] = true;
-                break;
-
-            case KEY_NUM6:
-                keyPressed[5] = true;
-                break;
-
-            case KEY_NUM7:
-                keyPressed[6] = true;
-                break;
-
-            case KEY_NUM8:
-                keyPressed[7] = true;
-                break;
-
-            case KEY_NUM9:
-                keyPressed[8] = true;
-                break;
-
-            case KEY_STAR:
-                keyPressed[9] = true;
-                break;
-
-            case KEY_NUM0:
-                keyPressed[10] = true;
-                break;
-
-            case KEY_POUND:
-                keyPressed[11] = true;
-                break;
-
-            default:
-                keyProcessed = false;
-                break;
+            default: keyProcessed = false; break;
         }
 
         if(keyProcessed)
@@ -494,56 +457,20 @@ public class PianoCanvas extends Canvas
 
         switch(keyCode)
         {
-            case KEY_NUM1:
-                keyPressed[0] = false;
-                break;
+            case KEY_NUM1: keyPressed[0] = false; break;
+            case KEY_NUM2: keyPressed[1] = false; break;
+            case KEY_NUM3: keyPressed[2] = false; break;
+            case KEY_NUM4: keyPressed[3] = false; break;
+            case KEY_NUM5: keyPressed[4] = false; break;
+            case KEY_NUM6: keyPressed[5] = false; break;
+            case KEY_NUM7: keyPressed[6] = false; break;
+            case KEY_NUM8: keyPressed[7] = false; break;
+            case KEY_NUM9: keyPressed[8] = false; break;
+            case KEY_STAR: keyPressed[9] = false; break;
+            case KEY_NUM0: keyPressed[10] = false; break;
+            case KEY_POUND: keyPressed[11] = false; break;
 
-            case KEY_NUM2:
-                keyPressed[1] = false;
-                break;
-
-            case KEY_NUM3:
-                keyPressed[2] = false;
-                break;
-
-            case KEY_NUM4:
-                keyPressed[3] = false;
-                break;
-
-            case KEY_NUM5:
-                keyPressed[4] = false;
-                break;
-
-            case KEY_NUM6:
-                keyPressed[5] = false;
-                break;
-
-            case KEY_NUM7:
-                keyPressed[6] = false;
-                break;
-
-            case KEY_NUM8:
-                keyPressed[7] = false;
-                break;
-
-            case KEY_NUM9:
-                keyPressed[8] = false;
-                break;
-
-            case KEY_STAR:
-                keyPressed[9] = false;
-                break;
-
-            case KEY_NUM0:
-                keyPressed[10] = false;
-                break;
-
-            case KEY_POUND:
-                keyPressed[11] = false;
-                break;
-
-            default:
-                keyProcessed = false;
+            default: keyProcessed = false; break;
         }
 
         if(keyProcessed)
