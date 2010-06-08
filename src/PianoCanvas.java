@@ -96,13 +96,16 @@ public class PianoCanvas extends Canvas
         g.fillRect(cx1, cy1, whiteKeyNarrowWidth, whiteKeyHeight);
         g.fillRect(cx3, cy3, blackKeyNarrowWidth, whiteKeyLesserHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawLine(cx1, cy1, cx2, cy2);
-        g.drawLine(cx2, cy2, cx3, cy3);
-        g.drawLine(cx3, cy3, cx4, cy4);
-        g.drawLine(cx4, cy4, cx5, cy5);
-        g.drawLine(cx5, cy5, cx6, cy6);
-        g.drawLine(cx6, cy6, cx1, cy1);
+        if(!keyPressed[0])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawLine(cx1, cy1, cx2, cy2);
+            g.drawLine(cx2, cy2, cx3, cy3);
+            g.drawLine(cx3, cy3, cx4, cy4);
+            g.drawLine(cx4, cy4, cx5, cy5);
+            g.drawLine(cx5, cy5, cx6, cy6);
+            g.drawLine(cx6, cy6, cx1, cy1);
+        }
 
         // Draw C#
         final int ccx1 = cx2;
@@ -117,8 +120,11 @@ public class PianoCanvas extends Canvas
         setKeyColor(g, 1);
         g.fillRect(ccx1, ccy1, blackKeyWidth, blackKeyHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawRect(ccx1, ccy1, blackKeyWidth, blackKeyHeight);
+        if(keyPressed[1])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawRect(ccx1, ccy1, blackKeyWidth, blackKeyHeight);
+        }
 
         // Draw D
         final int dx1 = ccx2;
@@ -142,15 +148,18 @@ public class PianoCanvas extends Canvas
         g.fillRect(dx1, dy1, dx2 - dx1, blackKeyHeight);
         g.fillRect(dx7, dy7, whiteKeyWidth, whiteKeyLesserHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawLine(dx1, dy1, dx2, dy2);
-        g.drawLine(dx2, dy2, dx3, dy3);
-        g.drawLine(dx3, dy3, dx4, dy4);
-        g.drawLine(dx4, dy4, dx5, dy5);
-        g.drawLine(dx5, dy5, dx6, dy6);
-        g.drawLine(dx6, dy6, dx7, dy7);
-        g.drawLine(dx7, dy7, dx8, dy8);
-        g.drawLine(dx8, dy8, dx1, dy1);
+        if(!keyPressed[2])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawLine(dx1, dy1, dx2, dy2);
+            g.drawLine(dx2, dy2, dx3, dy3);
+            g.drawLine(dx3, dy3, dx4, dy4);
+            g.drawLine(dx4, dy4, dx5, dy5);
+            g.drawLine(dx5, dy5, dx6, dy6);
+            g.drawLine(dx6, dy6, dx7, dy7);
+            g.drawLine(dx7, dy7, dx8, dy8);
+            g.drawLine(dx8, dy8, dx1, dy1);
+        }
 
         // Draw D#
         final int ddx1 = dx2;
@@ -165,8 +174,11 @@ public class PianoCanvas extends Canvas
         setKeyColor(g, 3);
         g.fillRect(ddx1, ddy1, blackKeyWidth, blackKeyHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawRect(ddx1, ddy1, blackKeyWidth, blackKeyHeight);
+        if(keyPressed[3])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawRect(ddx1, ddy1, blackKeyWidth, blackKeyHeight);
+        }
 
         // Draw E
         final int ex1 = ddx2;
@@ -186,13 +198,16 @@ public class PianoCanvas extends Canvas
         g.fillRect(ex1, ey1, whiteKeyNarrowWidth, blackKeyHeight);
         g.fillRect(ex5, ey5, whiteKeyWidth, whiteKeyLesserHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawLine(ex1, ey1, ex2, ey2);
-        g.drawLine(ex2, ey2, ex3, ey3);
-        g.drawLine(ex3, ey3, ex4, ey4);
-        g.drawLine(ex4, ey4, ex5, ey5);
-        g.drawLine(ex5, ey5, ex6, ey6);
-        g.drawLine(ex6, ey6, ex1, ey1);
+        if(!keyPressed[4])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawLine(ex1, ey1, ex2, ey2);
+            g.drawLine(ex2, ey2, ex3, ey3);
+            g.drawLine(ex3, ey3, ex4, ey4);
+            g.drawLine(ex4, ey4, ex5, ey5);
+            g.drawLine(ex5, ey5, ex6, ey6);
+            g.drawLine(ex6, ey6, ex1, ey1);
+        }
 
         // Draw F
         final int fx1 = ex2;
@@ -212,13 +227,16 @@ public class PianoCanvas extends Canvas
         g.fillRect(fx1, fy1, whiteKeyNarrowWidth, whiteKeyHeight);
         g.fillRect(fx3, fy3, blackKeyNarrowWidth, whiteKeyLesserHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawLine(fx1, fy1, fx2, fy2);
-        g.drawLine(fx2, fy2, fx3, fy3);
-        g.drawLine(fx3, fy3, fx4, fy4);
-        g.drawLine(fx4, fy4, fx5, fy5);
-        g.drawLine(fx5, fy5, fx6, fy6);
-        g.drawLine(fx6, fy6, fx1, fy1);
+        if(!keyPressed[5])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawLine(fx1, fy1, fx2, fy2);
+            g.drawLine(fx2, fy2, fx3, fy3);
+            g.drawLine(fx3, fy3, fx4, fy4);
+            g.drawLine(fx4, fy4, fx5, fy5);
+            g.drawLine(fx5, fy5, fx6, fy6);
+            g.drawLine(fx6, fy6, fx1, fy1);
+        }
 
         // Draw F#
         final int ffx1 = fx2;
@@ -233,8 +251,11 @@ public class PianoCanvas extends Canvas
         setKeyColor(g, 6);
         g.fillRect(ffx1, ffy1, blackKeyWidth, blackKeyHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawRect(ffx1, ffy1, blackKeyWidth, blackKeyHeight);
+        if(keyPressed[6])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawRect(ffx1, ffy1, blackKeyWidth, blackKeyHeight);
+        }
 
         // Draw G
         final int gx1 = ffx2;
@@ -258,15 +279,18 @@ public class PianoCanvas extends Canvas
         g.fillRect(gx1, gy1, gx2 - gx1, blackKeyHeight);
         g.fillRect(gx7, gy7, whiteKeyWidth, whiteKeyLesserHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawLine(gx1, gy1, gx2, gy2);
-        g.drawLine(gx2, gy2, gx3, gy3);
-        g.drawLine(gx3, gy3, gx4, gy4);
-        g.drawLine(gx4, gy4, gx5, gy5);
-        g.drawLine(gx5, gy5, gx6, gy6);
-        g.drawLine(gx6, gy6, gx7, gy7);
-        g.drawLine(gx7, gy7, gx8, gy8);
-        g.drawLine(gx8, gy8, gx1, gy1);
+        if(!keyPressed[7])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawLine(gx1, gy1, gx2, gy2);
+            g.drawLine(gx2, gy2, gx3, gy3);
+            g.drawLine(gx3, gy3, gx4, gy4);
+            g.drawLine(gx4, gy4, gx5, gy5);
+            g.drawLine(gx5, gy5, gx6, gy6);
+            g.drawLine(gx6, gy6, gx7, gy7);
+            g.drawLine(gx7, gy7, gx8, gy8);
+            g.drawLine(gx8, gy8, gx1, gy1);
+        }
 
         // Draw G#
         final int ggx1 = gx2;
@@ -281,8 +305,11 @@ public class PianoCanvas extends Canvas
         setKeyColor(g, 8);
         g.fillRect(ggx1, ggy1, blackKeyWidth, blackKeyHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawRect(ggx1, ggy1, blackKeyWidth, blackKeyHeight);
+        if(keyPressed[8])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawRect(ggx1, ggy1, blackKeyWidth, blackKeyHeight);
+        }
 
         // Draw A
         final int ax1 = ggx2;
@@ -306,15 +333,18 @@ public class PianoCanvas extends Canvas
         g.fillRect(ax1, ay1, ax2 - ax1, blackKeyHeight);
         g.fillRect(ax7, ay7, whiteKeyWidth, whiteKeyLesserHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawLine(ax1, ay1, ax2, ay2);
-        g.drawLine(ax2, ay2, ax3, ay3);
-        g.drawLine(ax3, ay3, ax4, ay4);
-        g.drawLine(ax4, ay4, ax5, ay5);
-        g.drawLine(ax5, ay5, ax6, ay6);
-        g.drawLine(ax6, ay6, ax7, ay7);
-        g.drawLine(ax7, ay7, ax8, ay8);
-        g.drawLine(ax8, ay8, ax1, ay1);
+        if(!keyPressed[9])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawLine(ax1, ay1, ax2, ay2);
+            g.drawLine(ax2, ay2, ax3, ay3);
+            g.drawLine(ax3, ay3, ax4, ay4);
+            g.drawLine(ax4, ay4, ax5, ay5);
+            g.drawLine(ax5, ay5, ax6, ay6);
+            g.drawLine(ax6, ay6, ax7, ay7);
+            g.drawLine(ax7, ay7, ax8, ay8);
+            g.drawLine(ax8, ay8, ax1, ay1);
+        }
 
         // Draw A#
         final int aax1 = ax2;
@@ -329,8 +359,11 @@ public class PianoCanvas extends Canvas
         setKeyColor(g, 10);
         g.fillRect(aax1, aay1, blackKeyWidth, blackKeyHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawRect(aax1, aay1, blackKeyWidth, blackKeyHeight);
+        if(keyPressed[10])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawRect(aax1, aay1, blackKeyWidth, blackKeyHeight);
+        }
 
         // Draw H
         final int hx1 = aax2;
@@ -350,14 +383,16 @@ public class PianoCanvas extends Canvas
         g.fillRect(hx1, hy1, whiteKeyNarrowWidth, blackKeyHeight);
         g.fillRect(hx5, hy5, whiteKeyWidth, whiteKeyLesserHeight);
 
-        g.setColor(CONTOUR_COLOR);
-        g.drawLine(hx1, hy1, hx2, hy2);
-        g.drawLine(hx2, hy2, hx3, hy3);
-        g.drawLine(hx3, hy3, hx4, hy4);
-        g.drawLine(hx4, hy4, hx5, hy5);
-        g.drawLine(hx5, hy5, hx6, hy6);
-        g.drawLine(hx6, hy6, hx1, hy1);
-
+        if(!keyPressed[11])
+        {
+            g.setColor(CONTOUR_COLOR);
+            g.drawLine(hx1, hy1, hx2, hy2);
+            g.drawLine(hx2, hy2, hx3, hy3);
+            g.drawLine(hx3, hy3, hx4, hy4);
+            g.drawLine(hx4, hy4, hx5, hy5);
+            g.drawLine(hx5, hy5, hx6, hy6);
+            g.drawLine(hx6, hy6, hx1, hy1);
+        }
 
     }
 
