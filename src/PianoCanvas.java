@@ -7,7 +7,7 @@ import javax.microedition.lcdui.Graphics;
  * @author Wincent Balin
  */
 
-public class PianoCanvas extends Canvas
+class PianoCanvas extends Canvas
 {
     public static final int KEYS = 12;
 

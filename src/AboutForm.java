@@ -7,7 +7,7 @@ import javax.microedition.lcdui.TextField;
  * @author Wincent Balin
  */
 
-public class AboutForm extends Form
+class AboutForm extends Form
 {
     public static final String aboutTitle = "About this program...";
     public static final String aboutText = "About this program...";
