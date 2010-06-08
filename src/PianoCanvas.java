@@ -109,10 +109,10 @@ public class PianoCanvas extends Canvas
         final int ccy1 = cy2;
         final int ccx2 = ccx1 + blackKeyWidth;
         final int ccy2 = ccy1;
-        final int ccx3 = ccx2;
-        final int ccy3 = ccy2 + blackKeyHeight;
-        final int ccx4 = ccx1;
-        final int ccy4 = ccy3;
+        //final int ccx3 = ccx2;
+        //final int ccy3 = ccy2 + blackKeyHeight;
+        //final int ccx4 = ccx1;
+        //final int ccy4 = ccy3;
 
         setKeyColor(g, 1);
         g.fillRect(ccx1, ccy1, blackKeyWidth, blackKeyHeight);
@@ -157,10 +157,10 @@ public class PianoCanvas extends Canvas
         final int ddy1 = dy2;
         final int ddx2 = ddx1 + blackKeyWidth;
         final int ddy2 = ddy1;
-        final int ddx3 = ddx2;
-        final int ddy3 = ddy2 + blackKeyHeight;
-        final int ddx4 = ddx1;
-        final int ddy4 = ddy3;
+        //final int ddx3 = ddx2;
+        //final int ddy3 = ddy2 + blackKeyHeight;
+        //final int ddx4 = ddx1;
+        //final int ddy4 = ddy3;
 
         setKeyColor(g, 3);
         g.fillRect(ddx1, ddy1, blackKeyWidth, blackKeyHeight);
@@ -225,10 +225,10 @@ public class PianoCanvas extends Canvas
         final int ffy1 = fy2;
         final int ffx2 = ffx1 + blackKeyWidth;
         final int ffy2 = ffy1;
-        final int ffx3 = ffx2;
-        final int ffy3 = ffy2 + blackKeyHeight;
-        final int ffx4 = ffx1;
-        final int ffy4 = ffy3;
+        //final int ffx3 = ffx2;
+        //final int ffy3 = ffy2 + blackKeyHeight;
+        //final int ffx4 = ffx1;
+        //final int ffy4 = ffy3;
 
         setKeyColor(g, 6);
         g.fillRect(ffx1, ffy1, blackKeyWidth, blackKeyHeight);
@@ -273,10 +273,10 @@ public class PianoCanvas extends Canvas
         final int ggy1 = gy2;
         final int ggx2 = ggx1 + blackKeyWidth;
         final int ggy2 = ggy1;
-        final int ggx3 = ggx2;
-        final int ggy3 = ggy2 + blackKeyHeight;
-        final int ggx4 = ggx1;
-        final int ggy4 = ggy3;
+        //final int ggx3 = ggx2;
+        //final int ggy3 = ggy2 + blackKeyHeight;
+        //final int ggx4 = ggx1;
+        //final int ggy4 = ggy3;
 
         setKeyColor(g, 8);
         g.fillRect(ggx1, ggy1, blackKeyWidth, blackKeyHeight);
@@ -321,10 +321,10 @@ public class PianoCanvas extends Canvas
         final int aay1 = ay2;
         final int aax2 = aax1 + blackKeyWidth;
         final int aay2 = aay1;
-        final int aax3 = aax2;
-        final int aay3 = aay2 + blackKeyHeight;
-        final int aax4 = aax1;
-        final int aay4 = aay3;
+        //final int aax3 = aax2;
+        //final int aay3 = aay2 + blackKeyHeight;
+        //final int aax4 = aax1;
+        //final int aay4 = aay3;
 
         setKeyColor(g, 10);
         g.fillRect(aax1, aay1, blackKeyWidth, blackKeyHeight);
