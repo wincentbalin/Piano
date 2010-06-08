@@ -437,6 +437,8 @@ public class PianoCanvas extends Canvas
                 keyPressed[11] = true;
                 break;
         }
+
+        repaint();
     }
 
     /**
@@ -496,5 +498,7 @@ public class PianoCanvas extends Canvas
                 keyPressed[11] = false;
                 break;
         }
+
+        repaint();
     }
 }
