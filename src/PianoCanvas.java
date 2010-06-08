@@ -394,6 +394,68 @@ public class PianoCanvas extends Canvas
             g.drawLine(hx6, hy6, hx1, hy1);
         }
 
+        /* Draw helping characters */
+
+        g.setColor(CONTOUR_COLOR);
+
+        final int dcyw = height;
+        final int dcyb = dcyw - fontHeight;
+
+        final int yl = cy6 + 5;
+        final int dcylw = dcyb - 2;
+        final int dcylb = dcylw - fontHeight;
+
+        final int halfWhiteKeyWidth = whiteKeyWidth / 2;
+        final int halfBlackKeyWidth = blackKeyWidth / 2;
+
+        final int dccx1 = cx1 + halfWhiteKeyWidth;
+        g.drawChar('1', dccx1, dcyw, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dccx1, dcylw, dccx1, yl);
+
+        final int dcccx1 = ccx1 + halfBlackKeyWidth;
+        g.drawChar('2', dcccx1, dcyb, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dcccx1, dcylb, dcccx1, yl);
+
+        final int dcdx1 = dx6 + halfWhiteKeyWidth;
+        g.drawChar('3', dcdx1, dcyw, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dcdx1, dcylw, dcdx1, yl);
+
+        final int dcddx1 = ddx1 + halfBlackKeyWidth;
+        g.drawChar('4', dcddx1, dcyb, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dcddx1, dcylb, dcddx1, yl);
+
+        final int dcex1 = ex4 + halfWhiteKeyWidth;
+        g.drawChar('5', dcex1, dcyw, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dcex1, dcylw, dcex1, yl);
+
+        final int dcfx1 = fx1 + halfWhiteKeyWidth;
+        g.drawChar('6', dcfx1, dcyw, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dcfx1, dcylw, dcfx1, yl);
+
+        final int dcffx1 = ffx1 + halfBlackKeyWidth;
+        g.drawChar('7', dcffx1, dcyb, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dcffx1, dcylb, dcffx1, yl);
+
+        final int dcgx1 = gx6 + halfWhiteKeyWidth;
+        g.drawChar('8', dcgx1, dcyw, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dcgx1, dcylw, dcgx1, yl);
+
+        final int dcggx1 = ggx1 + halfBlackKeyWidth;
+        g.drawChar('9', dcggx1, dcyb, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dcggx1, dcylb, dcggx1, yl);
+
+        final int dcax1 = ax6 + halfWhiteKeyWidth;
+        g.drawChar('*', dcax1, dcyw, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dcax1, dcylw, dcax1, yl);
+
+        final int dcaax1 = aax1 + halfBlackKeyWidth;
+        g.drawChar('0', dcaax1, dcyb, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dcaax1, dcylb, dcaax1, yl);
+
+        final int dchx1 = hx4 + halfWhiteKeyWidth;
+        g.drawChar('#', dchx1, dcyw, Graphics.BOTTOM | Graphics.HCENTER);
+        g.drawLine(dchx1, dcylw, dchx1, yl);
+
     }
 
     /**
