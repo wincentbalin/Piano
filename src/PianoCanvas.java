@@ -346,7 +346,7 @@ public class PianoCanvas extends Canvas
         final int hx6 = hx5 + blackKeyNarrowWidth;
         final int hy6 = hy5;
 
-        setKeyColor(g, 4);
+        setKeyColor(g, 11);
         g.fillRect(hx1, hy1, whiteKeyNarrowWidth, blackKeyHeight);
         g.fillRect(hx5, hy5, whiteKeyWidth, whiteKeyLesserHeight);
 
