@@ -1,3 +1,5 @@
+package piano;
+
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
