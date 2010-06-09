@@ -1,3 +1,5 @@
+package piano;
+
 import java.io.IOException;
 import javax.microedition.media.Manager;
 import javax.microedition.media.MediaException;
