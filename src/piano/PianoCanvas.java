@@ -38,6 +38,9 @@ class PianoCanvas extends Canvas
 
     private boolean[] keyPressed = new boolean[KEYS];
 
+    private int canvasWidth = 0;
+    private int canvasHeight = 0;
+
     /**
      * Constructor.
      */
@@ -394,6 +397,20 @@ class PianoCanvas extends Canvas
             g.drawLine(hx4, hy4, hx5, hy5);
             g.drawLine(hx5, hy5, hx6, hy6);
             g.drawLine(hx6, hy6, hx1, hy1);
+        }
+
+        /*
+         * If the dimensions of the canvas were unchanged, end painting here;
+         * else proceed with painting the helper.
+         */
+        if(width == canvasWidth && height == canvasHeight)
+        {
+            return;
+        }
+        else
+        {
+            canvasWidth = width;
+            canvasHeight = height;
         }
 
         /* Draw helping characters */
