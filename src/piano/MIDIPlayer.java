@@ -13,7 +13,7 @@ import javax.microedition.media.control.MIDIControl;
  * @author Wincent Balin
  */
 
-class MIDIPlayer implements Runnable
+class MIDIPlayer
 {
     private Player player;
 
