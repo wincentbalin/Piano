@@ -15,6 +15,12 @@ import javax.microedition.media.control.MIDIControl;
 
 class MIDIPlayer
 {
+    public static final int CHANNEL = 0;
+
+    public static final int VELOCITY = 100;
+
+    public static final int MUTE = 100;
+
     private Player player;
 
     private MIDIControl control;
@@ -97,5 +103,57 @@ class MIDIPlayer
         names.copyInto(result);
 
         return result;
+    }
+
+    /**
+     * Set program on the first channel.
+     *
+     * @param index Index in the previously created list of program names
+     */
+    void setProgram(int index)
+    {
+        int bank = banks[index / 127];
+        int program = index % 127;
+
+        // Use first channel
+        control.setProgram(CHANNEL, bank, program);
+    }
+
+    /**
+     * Convert octave/note combination to MIDI note number.
+     *
+     * @param octave Octave of the note (first: 0, second: 1, small: -1, etc)
+     * @param note Pitch of the note (C: 0, C#: 1, D: 2, etc)
+     * @return MIDI note number
+     */
+    private int calculateMIDINote(int octave, int note)
+    {
+        return 60 + octave * 12 + note;
+    }
+
+    /**
+     * Play the given note.
+     *
+     * @param octave Octave of the note (first: 0, second: 1, small: -1, etc)
+     * @param note Pitch of the note (C: 0, C#: 1, D: 2, etc)
+     */
+    void noteOn(int octave, int note)
+    {
+        int midiNote = calculateMIDINote(octave, note);
+
+        control.shortMidiEvent(control.NOTE_ON | CHANNEL, midiNote, VELOCITY);
+    }
+
+    /**
+     * Stop playing the given note.
+     *
+     * @param octave Octave of the note (first: 0, second: 1, small: -1, etc)
+     * @param note Pitch of the note (C: 0, C#: 1, D: 2, etc)
+     */
+    void noteOff(int octave, int note)
+    {
+        int midiNote = calculateMIDINote(octave, note);
+
+        control.shortMidiEvent(control.NOTE_ON | CHANNEL, midiNote, MUTE);
     }
 }
