@@ -11,7 +11,20 @@ import javax.microedition.lcdui.Graphics;
 
 class PianoCanvas extends Canvas
 {
-    public static final int KEYS = 12;
+    public static final int KEYS = 127;
+
+    public static final int NOTE_C = 0;
+    public static final int NOTE_C_SHARP = 1;
+    public static final int NOTE_D = 2;
+    public static final int NOTE_D_SHARP = 3;
+    public static final int NOTE_E = 4;
+    public static final int NOTE_F = 5;
+    public static final int NOTE_F_SHARP = 6;
+    public static final int NOTE_G = 7;
+    public static final int NOTE_G_SHARP = 8;
+    public static final int NOTE_A = 9;
+    public static final int NOTE_A_SHARP = 10;
+    public static final int NOTE_H = 11;
 
     public static final int BLACK_COLOR = 0x00000000;
     public static final int WHITE_COLOR = 0x00FFFFFF;
@@ -39,6 +52,8 @@ class PianoCanvas extends Canvas
     private boolean[] keyPressed = new boolean[KEYS];
 
     private MIDIPlayer player;
+
+    private int octave = 0;
 
     /**
      * Constructor.
@@ -491,24 +506,28 @@ class PianoCanvas extends Canvas
     public void keyPressed(int key)
     {
         boolean keyProcessed = true;
+        int note = -1;
 
         switch(key)
         {
-            case KEY_NUM1: keyPressed[0] = true; break;
-            case KEY_NUM2: keyPressed[1] = true; break;
-            case KEY_NUM3: keyPressed[2] = true; break;
-            case KEY_NUM4: keyPressed[3] = true; break;
-            case KEY_NUM5: keyPressed[4] = true; break;
-            case KEY_NUM6: keyPressed[5] = true; break;
-            case KEY_NUM7: keyPressed[6] = true; break;
-            case KEY_NUM8: keyPressed[7] = true; break;
-            case KEY_NUM9: keyPressed[8] = true; break;
-            case KEY_STAR: keyPressed[9] = true; break;
-            case KEY_NUM0: keyPressed[10] = true; break;
-            case KEY_POUND: keyPressed[11] = true; break;
+            case KEY_NUM1: keyPressed[0] = true; note = 0; break;
+            case KEY_NUM2: keyPressed[1] = true; note = 1; break;
+            case KEY_NUM3: keyPressed[2] = true; note = 2; break;
+            case KEY_NUM4: keyPressed[3] = true; note = 3; break;
+            case KEY_NUM5: keyPressed[4] = true; note = 4; break;
+            case KEY_NUM6: keyPressed[5] = true; note = 5; break;
+            case KEY_NUM7: keyPressed[6] = true; note = 6; break;
+            case KEY_NUM8: keyPressed[7] = true; note = 7; break;
+            case KEY_NUM9: keyPressed[8] = true; note = 8; break;
+            case KEY_STAR: keyPressed[9] = true; note = 9; break;
+            case KEY_NUM0: keyPressed[10] = true; note = 10; break;
+            case KEY_POUND: keyPressed[11] = true; note = 11; break;
 
             default: keyProcessed = false; break;
         }
+
+        if(note > -1)
+            player.noteOn(octave, note);
 
         if(keyProcessed)
             repaint();
@@ -522,24 +541,28 @@ class PianoCanvas extends Canvas
     public void keyReleased(int key)
     {
         boolean keyProcessed = true;
+        int note = -1;
 
         switch(key)
         {
-            case KEY_NUM1: keyPressed[0] = false; break;
-            case KEY_NUM2: keyPressed[1] = false; break;
-            case KEY_NUM3: keyPressed[2] = false; break;
-            case KEY_NUM4: keyPressed[3] = false; break;
-            case KEY_NUM5: keyPressed[4] = false; break;
-            case KEY_NUM6: keyPressed[5] = false; break;
-            case KEY_NUM7: keyPressed[6] = false; break;
-            case KEY_NUM8: keyPressed[7] = false; break;
-            case KEY_NUM9: keyPressed[8] = false; break;
-            case KEY_STAR: keyPressed[9] = false; break;
-            case KEY_NUM0: keyPressed[10] = false; break;
-            case KEY_POUND: keyPressed[11] = false; break;
+            case KEY_NUM1: keyPressed[0] = true; note = 0; break;
+            case KEY_NUM2: keyPressed[1] = true; note = 1; break;
+            case KEY_NUM3: keyPressed[2] = true; note = 2; break;
+            case KEY_NUM4: keyPressed[3] = true; note = 3; break;
+            case KEY_NUM5: keyPressed[4] = true; note = 4; break;
+            case KEY_NUM6: keyPressed[5] = true; note = 5; break;
+            case KEY_NUM7: keyPressed[6] = true; note = 6; break;
+            case KEY_NUM8: keyPressed[7] = true; note = 7; break;
+            case KEY_NUM9: keyPressed[8] = true; note = 8; break;
+            case KEY_STAR: keyPressed[9] = true; note = 9; break;
+            case KEY_NUM0: keyPressed[10] = true; note = 10; break;
+            case KEY_POUND: keyPressed[11] = true; note = 11; break;
 
             default: keyProcessed = false; break;
         }
+
+        if(note > -1)
+            player.noteOff(octave, note);
 
         if(keyProcessed)
             repaint();
