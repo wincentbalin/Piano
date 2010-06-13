@@ -50,7 +50,7 @@ class MIDIPlayer
         // If it is...
         if(bankQuerySupported)
         {
-            // Get all (=false) banks
+            // Get all (=false) available banks
             banks = control.getBankList(false);
         }
     }

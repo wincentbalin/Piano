@@ -482,13 +482,13 @@ class PianoCanvas extends Canvas
     /**
      * Handler of key pressed event.
      *
-     * @param keyCode Code of the key pressed
+     * @param key Code of the key pressed
      */
-    public void keyPressed(int keyCode)
+    public void keyPressed(int key)
     {
         boolean keyProcessed = true;
 
-        switch(keyCode)
+        switch(key)
         {
             case KEY_NUM1: keyPressed[0] = true; break;
             case KEY_NUM2: keyPressed[1] = true; break;
@@ -513,13 +513,13 @@ class PianoCanvas extends Canvas
     /**
      * Handler of key released event.
      *
-     * @param keyCode Code of the key released
+     * @param key Code of the key released
      */
-    public void keyReleased(int keyCode)
+    public void keyReleased(int key)
     {
         boolean keyProcessed = true;
 
-        switch(keyCode)
+        switch(key)
         {
             case KEY_NUM1: keyPressed[0] = false; break;
             case KEY_NUM2: keyPressed[1] = false; break;
