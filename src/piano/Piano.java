@@ -1,5 +1,7 @@
 package piano;
 
+import javax.microedition.lcdui.Alert;
+import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -31,6 +33,8 @@ public class Piano extends MIDlet implements CommandListener
 
     private Display display;
 
+    private MIDIPlayer player;
+
     private Canvas pianoCanvas;
     private Form aboutForm;
 
@@ -53,8 +57,23 @@ public class Piano extends MIDlet implements CommandListener
         // Get main display
         display = Display.getDisplay(this);
 
+        // Instantiate MIDI player
+        try
+        {
+            player = new MIDIPlayer();
+        }
+        catch(Exception e)
+        {
+            Alert alert = new Alert("Error",
+                                    "You will not be able to play notes! " +
+                                    "This device does not support MIDI!",
+                                    null,
+                                    AlertType.ERROR);
+            display.setCurrent(alert, pianoCanvas);
+        }
+
         // Initialize different displayables
-        pianoCanvas = new PianoCanvas();
+        pianoCanvas = new PianoCanvas(player);
         aboutForm = new AboutForm();
 
         // Add commands to appropriate forms

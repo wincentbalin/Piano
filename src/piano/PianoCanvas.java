@@ -38,10 +38,14 @@ class PianoCanvas extends Canvas
 
     private boolean[] keyPressed = new boolean[KEYS];
 
+    private MIDIPlayer player;
+
     /**
      * Constructor.
+     *
+     * @param player Player of notes
      */
-    PianoCanvas()
+    PianoCanvas(MIDIPlayer player)
     {
         // Initialize canvas
         super();
