@@ -22,9 +22,19 @@ public class MIDIPlayer implements NotePlayer
     public static final int CHANNEL = 0;
 
     /**
-     * Velocity of a muted note.
+     * MIDI event Note On.
      */
-    public static final int MUTE = 0;
+    public static final int MIDI_NOTE_ON = 0x90;
+
+    /**
+     * MIDI event Note Off.
+     */
+    public static final int MIDI_NOTE_OFF = 0x80;
+
+    /**
+     * MIDI event Control Change.
+     */
+    public static final int MIDI_PROGRAM_CHANGE = 0xC0;
 
     private PianoModel model;
 
@@ -71,8 +81,6 @@ public class MIDIPlayer implements NotePlayer
             // Get all (=false) available banks
             banks = control.getBankList(false);
         }
-
-control.shortMidiEvent(MIDIControl.CONTROL_CHANGE | CHANNEL, 7, 50);
     }
 
     /**
@@ -166,15 +174,15 @@ control.shortMidiEvent(MIDIControl.CONTROL_CHANGE | CHANNEL, 7, 50);
                 switch(ev.getCode())
                 {
                     case NoteEvent.NOTE_ON:
-                        control.shortMidiEvent(MIDIControl.NOTE_ON | CHANNEL,
+                        control.shortMidiEvent(MIDI_NOTE_ON | CHANNEL,
                                                ev.getNote(),
                                                ev.getVelocity());
                         break;
 
                     case NoteEvent.NOTE_OFF:
-                        control.shortMidiEvent(MIDIControl.NOTE_ON | CHANNEL,
+                        control.shortMidiEvent(MIDI_NOTE_OFF | CHANNEL,
                                                ev.getNote(),
-                                               MUTE);
+                                               ev.getVelocity());
                         break;
                 }
             }
