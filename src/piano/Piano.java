@@ -34,13 +34,15 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
 
     private Display display;
 
-    private MIDIPlayer player;
+    private NotePlayer player;
+    private boolean playerHasPrograms;
 
     private PianoCanvas pianoCanvas;
     private Form aboutForm;
 
     private int octave;
     private boolean[] keyPressed;
+    private int velocity;
 
     private Vector noteEvents;
 
@@ -60,6 +62,9 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         keyPressed = new boolean[MIDI_KEYS];
         noteEvents = new Vector();
         listeners = new Vector(2);
+
+        // Initialize rest
+        playerHasPrograms = true;
     }
 
     /**
@@ -73,45 +78,54 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         for(int i = 0; i < MIDI_KEYS; i++)
             keyPressed[i] = false;
 
+        velocity = 100;
+
         // Get main display
         display = Display.getDisplay(this);
 
-        // Instantiate MIDI player
-        try
-        {
-            player = new MIDIPlayer();
-        }
-        catch(Exception e)
-        {
-            Alert alert = new Alert("Error",
-                                    "You will not be able to play notes! " +
-                                    "This device does not support MIDI!",
-                                    null,
-                                    AlertType.ERROR);
-            display.setCurrent(alert, pianoCanvas);
-        }
-
-        // Initialize different displayables
+        // Initialize main canvas
         pianoCanvas = new PianoCanvas(this);
-        aboutForm = new AboutForm();
 
-        // Connect controller, model and view
-        pianoCanvas.addInstrumentModel(this);
-        addInstrumentModelListener(pianoCanvas);
-        if(player.isAvailable())
-            addInstrumentModelListener(player);
+        // Set main canvas
+        display.setCurrent(pianoCanvas);
 
         // Add commands to appropriate forms
         pianoCanvas.addCommand(exit);
         pianoCanvas.addCommand(about);
         aboutForm.addCommand(back);
 
+        // Instantiate MIDI player
+        try
+        {
+            player = new MIDIPlayer(this);
+        }
+        catch(Exception e)
+        {
+            // Initialize tone player
+            player = new TonePlayer(this);
+
+            // Tone player does not have programs
+            playerHasPrograms = false;
+
+            // Alert user about certain disability
+            Alert alert = new Alert("Warning",
+                                    "You will not be able to change the timbre!",
+                                    null,
+                                    AlertType.WARNING);
+            display.setCurrent(alert, pianoCanvas);
+        }
+
+        // Initialize different displayables
+        aboutForm = new AboutForm();
+
+        // Connect controller, model and view
+        pianoCanvas.addInstrumentModel(this);
+        addInstrumentModelListener(pianoCanvas);
+        addInstrumentModelListener(player);
+
         // Set command listeners
         pianoCanvas.setCommandListener(this);
         aboutForm.setCommandListener(this);
-
-        // Set main canvas
-        display.setCurrent(pianoCanvas);
     }
 
     /**
@@ -161,9 +175,34 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     /**
      * Implementation of PianoModel.
      */
+    public int getOctave()
+    {
+        return octave;
+    }
+
+    /**
+     * Implementation of PianoModel.
+     *
+     * @throws ArrayIndexOutOfBoundsException
+     */
+    public void setOctave(int octave)
+    {
+        // Calculate index of the lowest key (C) in the new octave
+        int keyIndex = MIDI_MIDDLE_C + octave * OCTAVE_NOTES;
+
+        if(keyIndex > 0 && keyIndex <= MIDI_KEYS - OCTAVE_NOTES)
+        {
+            this.octave = octave;
+        }
+        else
+            throw new ArrayIndexOutOfBoundsException();
+    }
+    /**
+     * Implementation of PianoModel.
+     */
     public boolean[] getCurrentOctaveKeys()
     {
-        boolean[] keys = new boolean[PianoNotes.OCTAVE_NOTES];
+        boolean[] keys = new boolean[OCTAVE_NOTES];
 
         System.arraycopy(keyPressed, MIDI_MIDDLE_C + octave * OCTAVE_NOTES,
                          keys, NOTE_C,
@@ -215,17 +254,22 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     {
         boolean notify = true;
         int key;
+        NoteEvent ev;
 
         switch(e.getCode())
         {
             case InstrumentEvent.KEY_PRESSED:
                 key = MIDI_MIDDLE_C + octave * OCTAVE_NOTES + e.getControl();
                 keyPressed[key] = true;
+                ev = new NoteEvent(NoteEvent.NOTE_ON, key, velocity);
+                noteEvents.addElement(ev);
                 break;
 
             case InstrumentEvent.KEY_RELEASED:
                 key = MIDI_MIDDLE_C + octave * OCTAVE_NOTES + e.getControl();
                 keyPressed[key] = false;
+                ev = new NoteEvent(NoteEvent.NOTE_OFF, key, 0);
+                noteEvents.addElement(ev);
                 break;
 
             default:
