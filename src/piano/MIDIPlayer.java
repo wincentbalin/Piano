@@ -16,8 +16,14 @@ import javax.microedition.media.control.MIDIControl;
 
 public class MIDIPlayer implements NotePlayer
 {
+    /**
+     * MIDI channel, on which the program is playing.
+     */
     public static final int CHANNEL = 0;
 
+    /**
+     * Velocity of a muted note.
+     */
     public static final int MUTE = 0;
 
     private PianoModel model;
@@ -65,6 +71,8 @@ public class MIDIPlayer implements NotePlayer
             // Get all (=false) available banks
             banks = control.getBankList(false);
         }
+
+control.shortMidiEvent(MIDIControl.CONTROL_CHANGE | CHANNEL, 7, 50);
     }
 
     /**
