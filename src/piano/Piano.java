@@ -245,7 +245,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     {
         for(int i = 0; i < listeners.size(); i++)
         {
-            ((PianoView)listeners.elementAt(i)).update();
+            ((InstrumentModelListener)listeners.elementAt(i)).update();
         }
     }
 }
