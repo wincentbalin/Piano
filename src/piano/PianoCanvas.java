@@ -11,7 +11,7 @@ import javax.microedition.lcdui.Graphics;
  * @author Wincent Balin
  */
 
-class PianoCanvas extends Canvas implements PianoView, InstrumentController
+public class PianoCanvas extends Canvas implements PianoView, InstrumentController
 {
     /**
      * Constant for black color.
@@ -66,7 +66,7 @@ class PianoCanvas extends Canvas implements PianoView, InstrumentController
      *
      * @param model Model of a piano
      */
-    PianoCanvas(PianoModel model)
+    public PianoCanvas(PianoModel model)
     {
         // Initialize canvas
         super();

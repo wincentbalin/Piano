@@ -9,7 +9,7 @@ import javax.microedition.lcdui.StringItem;
  * @author Wincent Balin
  */
 
-class HelpForm extends Form
+public class HelpForm extends Form
 {
     public static final String helpTitle = "Help";
     public static final String helpText =
@@ -24,7 +24,7 @@ class HelpForm extends Form
     /**
      * Constructor.
      */
-    HelpForm()
+    public HelpForm()
     {
         // Create formular with appropriate title
         super(helpTitle);

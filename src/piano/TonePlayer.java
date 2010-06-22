@@ -40,7 +40,7 @@ public class TonePlayer implements NotePlayer, PlayerListener
      * @throws IOException
      * @throws MediaException
      */
-    TonePlayer(PianoModel model) throws IOException, MediaException
+    public TonePlayer(PianoModel model) throws IOException, MediaException
     {
         // Store model
         this.model = model;
