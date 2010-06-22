@@ -127,6 +127,10 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
             display.setCurrent(alert, pianoCanvas);
         }
 
+        // Start player
+        playerThread = new Thread(player);
+        playerThread.start();
+
         // Initialize different displayables
         aboutForm = new AboutForm();
 
