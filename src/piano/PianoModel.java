@@ -33,6 +33,20 @@ public interface PianoModel extends InstrumentModel
     public static final int PIANO_FIRST_OCTAVE = 0;
 
     /**
+     * Get current octave.
+     *
+     * @return Current octave value
+     */
+    public int getOctave();
+
+    /**
+     * Set octave value.
+     *
+     * @param octave New octave value
+     */
+    public void setOctave(int octave);
+
+    /**
      * Get state of the keys in the current octave.
      * 
      * @return Boolean array with state of keys pressed
