@@ -9,10 +9,10 @@ import javax.microedition.lcdui.StringItem;
  * @author Wincent Balin
  */
 
-class AboutForm extends Form
+class HelpForm extends Form
 {
-    public static final String aboutTitle = "About this program";
-    public static final String aboutText =
+    public static final String helpTitle = "Help";
+    public static final String helpText =
             "This is a simple music instrument.\n" +
             "Use keypad to play it. The helper under the keyboard " +
             "shows corresponding buttons and keys.\n";
@@ -20,12 +20,12 @@ class AboutForm extends Form
     /**
      * Constructor.
      */
-    AboutForm()
+    HelpForm()
     {
         // Create formular with appropriate title
-        super(aboutTitle);
+        super(helpTitle);
 
         // Add text with description of the program
-        append(new StringItem(null, aboutText, StringItem.PLAIN));
+        append(new StringItem(null, helpText, StringItem.PLAIN));
     }
 }

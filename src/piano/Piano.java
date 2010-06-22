@@ -25,11 +25,11 @@ import javax.microedition.midlet.MIDlet;
  */
 public class Piano extends MIDlet implements CommandListener, PianoModel, PianoNotes
 {
-    public static final String COMMAND_ABOUT = "About";
+    public static final String COMMAND_HELP = "Help";
     public static final String COMMAND_EXIT = "Exit";
     public static final String COMMAND_BACK = "Back";
 
-    private Command about;
+    private Command help;
     private Command exit;
     private Command back;
 
@@ -40,7 +40,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     private Thread playerThread;
 
     private PianoCanvas pianoCanvas;
-    private Form aboutForm;
+    private Form helpForm;
 
     private int octave;
     private boolean[] keyPressed;
@@ -56,7 +56,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     public Piano()
     {
         // Initialize commands
-        about = new Command(COMMAND_ABOUT, Command.SCREEN, 1);
+        help = new Command(COMMAND_HELP, Command.SCREEN, 1);
         exit = new Command(COMMAND_EXIT, Command.EXIT, 0);
         back = new Command(COMMAND_BACK, Command.BACK, 0);
 
@@ -132,12 +132,12 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         playerThread.start();
 
         // Initialize different displayables
-        aboutForm = new AboutForm();
+        helpForm = new HelpForm();
 
         // Add commands to appropriate forms
         pianoCanvas.addCommand(exit);
-        pianoCanvas.addCommand(about);
-        aboutForm.addCommand(back);
+        pianoCanvas.addCommand(help);
+        helpForm.addCommand(back);
 
         // Connect controller, model and view
         pianoCanvas.addInstrumentModel(this);
@@ -145,7 +145,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
 
         // Set command listeners
         pianoCanvas.setCommandListener(this);
-        aboutForm.setCommandListener(this);
+        helpForm.setCommandListener(this);
     }
 
     /**
@@ -188,14 +188,14 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
             notifyDestroyed();
         }
 
-        // Handle about command
-        else if(c == about && d == pianoCanvas)
+        // Handle help command
+        else if(c == help && d == pianoCanvas)
         {
-            display.setCurrent(aboutForm);
+            display.setCurrent(helpForm);
         }
 
         // Handle back command in the about form
-        else if(c == back && d == aboutForm)
+        else if(c == back && d == helpForm)
         {
             display.setCurrent(pianoCanvas);
         }
