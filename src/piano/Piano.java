@@ -42,6 +42,8 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     private int octave;
     private boolean[] keyPressed;
 
+    private Vector noteEvents;
+
     private Vector listeners;
 
     /**
@@ -53,6 +55,11 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         about = new Command(COMMAND_ABOUT, Command.SCREEN, 1);
         exit = new Command(COMMAND_EXIT, Command.EXIT, 0);
         back = new Command(COMMAND_BACK, Command.BACK, 0);
+
+        // Create arrays and vectors
+        keyPressed = new boolean[MIDI_KEYS];
+        noteEvents = new Vector();
+        listeners = new Vector(2);
     }
 
     /**
@@ -63,11 +70,8 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         // Initialize piano model
         octave = PIANO_FIRST_OCTAVE;
 
-        keyPressed = new boolean[MIDI_KEYS];
         for(int i = 0; i < MIDI_KEYS; i++)
             keyPressed[i] = false;
-
-        listeners = new Vector(1);
 
         // Get main display
         display = Display.getDisplay(this);
@@ -94,6 +98,8 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         // Connect controller, model and view
         pianoCanvas.addInstrumentModel(this);
         addInstrumentModelListener(pianoCanvas);
+        if(player.isAvailable())
+            addInstrumentModelListener(player);
 
         // Add commands to appropriate forms
         pianoCanvas.addCommand(exit);
@@ -164,6 +170,26 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
                          OCTAVE_NOTES);
 
         return keys;
+    }
+
+    /**
+     * Implementation of PianoModel.
+     */
+    public boolean hasMoreNoteEvents()
+    {
+        return !noteEvents.isEmpty();
+    }
+
+    /**
+     * Implementation of PianoModel.
+     */
+    public NoteEvent nextNoteEvent()
+    {
+        // Get first element and remove it from the queue
+        NoteEvent ev = (NoteEvent) noteEvents.firstElement();
+        noteEvents.removeElementAt(0);
+
+        return ev;
     }
 
     /**

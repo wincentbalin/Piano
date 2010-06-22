@@ -38,4 +38,18 @@ public interface PianoModel extends InstrumentModel
      * @return Boolean array with state of keys pressed
      */
     public boolean[] getCurrentOctaveKeys();
+
+    /**
+     * Indicate whether the model has more note events.
+     *
+     * @return Availability of further note events
+     */
+    public boolean hasMoreNoteEvents();
+
+    /**
+     * Return next note event from the note event queue.
+     *
+     * @return Next note event
+     */
+    public NoteEvent nextNoteEvent();
 }

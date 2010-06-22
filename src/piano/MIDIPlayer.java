@@ -13,7 +13,7 @@ import javax.microedition.media.control.MIDIControl;
  * @author Wincent Balin
  */
 
-class MIDIPlayer
+class MIDIPlayer implements NotePlayer
 {
     public static final int CHANNEL = 0;
 
@@ -28,6 +28,8 @@ class MIDIPlayer
     private boolean bankQuerySupported;
 
     private int[] banks;
+
+    private boolean available = false;
 
 
     /**
@@ -50,6 +52,9 @@ class MIDIPlayer
         if(control == null)
             throw new ClassNotFoundException("MIDIControl not available!");
 
+        // Player is available then
+        available = true;
+
         // Check whether it is possible to query banks
         bankQuerySupported = control.isBankQuerySupported();
 
@@ -59,6 +64,16 @@ class MIDIPlayer
             // Get all (=false) available banks
             banks = control.getBankList(false);
         }
+    }
+
+    /**
+     * Indicates whether the player is available.
+     *
+     * @return Availability flag
+     */
+    public boolean isAvailable()
+    {
+        return available;
     }
 
     /**
@@ -155,5 +170,13 @@ class MIDIPlayer
         int midiNote = calculateMIDINote(octave, note);
 
         control.shortMidiEvent(control.NOTE_ON | CHANNEL, midiNote, MUTE);
+    }
+
+    /**
+     * Implementation of InstrumentModelListener.
+     */
+    public void update()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
