@@ -147,4 +147,27 @@ public class TonePlayer implements NotePlayer, PlayerListener
             playerAvailable = event.equals(END_OF_MEDIA);
         }
     }
+
+    /**
+     * Implementation of NotePlayer.
+     */
+    public boolean timbresAvailable()
+    {
+        return false;
+    }
+
+    /**
+     * Implementation of NotePlayer.
+     */
+    public String[] getTimbresList()
+    {
+        return null;
+    }
+
+    /**
+     * Implementation of NotePlayer.
+     */
+    public void setTimbre(int index)
+    {
+    }
 }

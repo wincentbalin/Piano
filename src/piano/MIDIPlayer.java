@@ -197,4 +197,39 @@ public class MIDIPlayer implements NotePlayer
             }
         }
     }
+
+    /**
+     * Implementation of NotePlayer.
+     */
+    public boolean timbresAvailable()
+    {
+        return bankQuerySupported;
+    }
+
+    /**
+     * Implementation of NotePlayer.
+     */
+    public String[] getTimbresList()
+    {
+        String[] timbresList = null;
+
+        try
+        {
+            timbresList = getAllProgramNames();
+        }
+        catch(MediaException e)
+        {
+            e.printStackTrace();
+        }
+
+        return timbresList;
+    }
+
+    /**
+     * Implementation of NotePlayer.
+     */
+    public void setTimbre(int index)
+    {
+        setProgram(index);
+    }
 }
