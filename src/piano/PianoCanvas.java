@@ -13,13 +13,34 @@ import javax.microedition.lcdui.Graphics;
 
 class PianoCanvas extends Canvas implements PianoView, InstrumentController
 {
+    /**
+     * Constant for black color.
+     */
     public static final int BLACK_COLOR = 0x00000000;
+
+    /**
+     * Constant for white color.
+     */
     public static final int WHITE_COLOR = 0x00FFFFFF;
+
+    /**
+     * Color of the contour.
+     */
     public static final int CONTOUR_COLOR = 0x00000000;
 
+    /**
+     * Margin between the elements of the the canvas and it's border.
+     */
     public static final int MARGIN = 10;
+
+    /**
+     * Distance between the keyboard and the note marks of the helper.
+     */
     public static final int KEYS_NOTES_DISTANCE = 10;
 
+    /**
+     * Lookup table for the color of the keys.
+     */
     public static final boolean[] WHITE_KEY =
     {
         true,
