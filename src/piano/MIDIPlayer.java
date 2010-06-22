@@ -145,6 +145,13 @@ public class MIDIPlayer implements Runnable, NotePlayer
     }
 
     /**
+     * Implementation of NotePlayer.
+     */
+    public void stop()
+    {
+    }
+
+    /**
      * Implementation of Runnable.
      */
     public void run()

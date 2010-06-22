@@ -7,4 +7,8 @@ package piano;
  */
 public interface NotePlayer extends InstrumentModelListener
 {
+    /**
+     * Stop the player.
+     */
+    public void stop();
 }

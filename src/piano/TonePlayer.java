@@ -46,4 +46,13 @@ public class TonePlayer implements NotePlayer
             }
         }
     }
+
+    /**
+     * Implementation of NotePlayer.
+     */
+    public void stop()
+    {
+        // Restore volume
+        volume.setLevel(originalVolumeLevel);
+    }
 }
