@@ -185,6 +185,7 @@ control.shortMidiEvent(MIDIControl.CONTROL_CHANGE | CHANNEL, 7, 50);
             }
             catch(InterruptedException e)
             {
+                e.printStackTrace();
             }
         }
     }

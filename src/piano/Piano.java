@@ -169,6 +169,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         }
         catch(MediaException e)
         {
+            e.printStackTrace();
         }
     }
 
