@@ -89,11 +89,6 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         // Set main canvas
         display.setCurrent(pianoCanvas);
 
-        // Add commands to appropriate forms
-        pianoCanvas.addCommand(exit);
-        pianoCanvas.addCommand(about);
-        aboutForm.addCommand(back);
-
         // Instantiate MIDI player
         try
         {
@@ -117,6 +112,11 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
 
         // Initialize different displayables
         aboutForm = new AboutForm();
+
+        // Add commands to appropriate forms
+        pianoCanvas.addCommand(exit);
+        pianoCanvas.addCommand(about);
+        aboutForm.addCommand(back);
 
         // Connect controller, model and view
         pianoCanvas.addInstrumentModel(this);
