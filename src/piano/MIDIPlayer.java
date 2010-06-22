@@ -2,6 +2,7 @@ package piano;
 
 import java.io.IOException;
 import java.util.Vector;
+
 import javax.microedition.media.Manager;
 import javax.microedition.media.MediaException;
 import javax.microedition.media.Player;
@@ -13,13 +14,13 @@ import javax.microedition.media.control.MIDIControl;
  * @author Wincent Balin
  */
 
-class MIDIPlayer implements NotePlayer
+public class MIDIPlayer implements Runnable, NotePlayer
 {
     public static final int CHANNEL = 0;
 
-    public static final int VELOCITY = 100;
+    public static final int MUTE = 0;
 
-    public static final int MUTE = 100;
+    private PianoModel model;
 
     private Player player;
 
@@ -29,18 +30,21 @@ class MIDIPlayer implements NotePlayer
 
     private int[] banks;
 
-    private boolean available = false;
-
 
     /**
      * Constructor.
+     *
+     * @param model Piano model
      *
      * @throws IOException
      * @throws MediaException
      * @throws ClassNotFoundException
      */
-    MIDIPlayer() throws IOException, MediaException, ClassNotFoundException
+    public MIDIPlayer(PianoModel model) throws IOException, MediaException, ClassNotFoundException
     {
+        // Store model
+        this.model = model;
+
         // Create MIDI player
         player = Manager.createPlayer(Manager.MIDI_DEVICE_LOCATOR);
         player.prefetch();
@@ -51,9 +55,6 @@ class MIDIPlayer implements NotePlayer
         // Check whether MIDI control was instantiated
         if(control == null)
             throw new ClassNotFoundException("MIDIControl not available!");
-
-        // Player is available then
-        available = true;
 
         // Check whether it is possible to query banks
         bankQuerySupported = control.isBankQuerySupported();
@@ -67,22 +68,12 @@ class MIDIPlayer implements NotePlayer
     }
 
     /**
-     * Indicates whether the player is available.
-     *
-     * @return Availability flag
-     */
-    public boolean isAvailable()
-    {
-        return available;
-    }
-
-    /**
      * Get list of names of all available MIDI programs.
      *
      * @return List with names
      * @throws MediaException
      */
-    String[] getAllProgramNames() throws MediaException
+    public String[] getAllProgramNames() throws MediaException
     {
         Vector names = new Vector();
         String[] result;
@@ -125,7 +116,7 @@ class MIDIPlayer implements NotePlayer
      *
      * @param index Index in the previously created list of program names
      */
-    void setProgram(int index)
+    public void setProgram(int index)
     {
         int bank = banks[index / 127];
         int program = index % 127;
@@ -147,36 +138,46 @@ class MIDIPlayer implements NotePlayer
     }
 
     /**
-     * Play the given note.
-     *
-     * @param octave Octave of the note (first: 0, second: 1, small: -1, etc)
-     * @param note Pitch of the note (C: 0, C#: 1, D: 2, etc)
-     */
-    void noteOn(int octave, int note)
-    {
-        int midiNote = calculateMIDINote(octave, note);
-
-        control.shortMidiEvent(control.NOTE_ON | CHANNEL, midiNote, VELOCITY);
-    }
-
-    /**
-     * Stop playing the given note.
-     *
-     * @param octave Octave of the note (first: 0, second: 1, small: -1, etc)
-     * @param note Pitch of the note (C: 0, C#: 1, D: 2, etc)
-     */
-    void noteOff(int octave, int note)
-    {
-        int midiNote = calculateMIDINote(octave, note);
-
-        control.shortMidiEvent(control.NOTE_ON | CHANNEL, midiNote, MUTE);
-    }
-
-    /**
      * Implementation of InstrumentModelListener.
      */
     public void update()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Implementation of Runnable.
+     */
+    public void run()
+    {
+        while(true)
+        {
+            while(model.hasMoreNoteEvents())
+            {
+                NoteEvent ev = model.nextNoteEvent();
+
+                switch(ev.getCode())
+                {
+                    case NoteEvent.NOTE_ON:
+                        control.shortMidiEvent(MIDIControl.NOTE_ON | CHANNEL,
+                                               ev.getNote(),
+                                               ev.getVelocity());
+                        break;
+
+                    case NoteEvent.NOTE_OFF:
+                        control.shortMidiEvent(MIDIControl.NOTE_ON | CHANNEL,
+                                               ev.getNote(),
+                                               MUTE);
+                        break;
+                }
+            }
+
+            try
+            {
+                Thread.sleep(10);
+            }
+            catch(InterruptedException e)
+            {
+            }
+        }
     }
 }
