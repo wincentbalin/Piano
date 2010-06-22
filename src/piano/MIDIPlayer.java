@@ -14,7 +14,7 @@ import javax.microedition.media.control.MIDIControl;
  * @author Wincent Balin
  */
 
-public class MIDIPlayer implements Runnable, NotePlayer
+public class MIDIPlayer implements NotePlayer
 {
     public static final int CHANNEL = 0;
 
@@ -135,13 +135,6 @@ public class MIDIPlayer implements Runnable, NotePlayer
     private int calculateMIDINote(int octave, int note)
     {
         return 60 + octave * 12 + note;
-    }
-
-    /**
-     * Implementation of InstrumentModelListener.
-     */
-    public void update()
-    {
     }
 
     /**

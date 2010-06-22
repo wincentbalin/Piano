@@ -9,6 +9,7 @@ import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
+import javax.microedition.media.MediaException;
 import javax.microedition.midlet.MIDlet;
 
 
@@ -36,6 +37,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
 
     private NotePlayer player;
     private boolean playerHasPrograms;
+    private Thread playerThread;
 
     private PianoCanvas pianoCanvas;
     private Form aboutForm;
@@ -61,7 +63,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         // Create arrays and vectors
         keyPressed = new boolean[MIDI_KEYS];
         noteEvents = new Vector();
-        listeners = new Vector(2);
+        listeners = new Vector(1);
 
         // Initialize rest
         playerHasPrograms = true;
@@ -94,10 +96,24 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         {
             player = new MIDIPlayer(this);
         }
-        catch(Exception e)
+        catch(Exception em)
         {
-            // Initialize tone player
-            player = new TonePlayer(this);
+            try
+            {
+                // Initialize tone player
+                player = new TonePlayer(this);
+            }
+            catch(Exception et)
+            {
+                // Alert user about absence of tone generator
+                Alert alert = new Alert("Error",
+                                        "No tone generator present!",
+                                        null,
+                                        AlertType.ERROR);
+                alert.setTimeout(3000);
+                display.setCurrent(alert, pianoCanvas);
+                System.exit(1);
+            }
 
             // Tone player does not have programs
             playerHasPrograms = false;
@@ -107,6 +123,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
                                     "You will not be able to change the timbre!",
                                     null,
                                     AlertType.WARNING);
+            alert.setTimeout(3000);
             display.setCurrent(alert, pianoCanvas);
         }
 
@@ -121,7 +138,6 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         // Connect controller, model and view
         pianoCanvas.addInstrumentModel(this);
         addInstrumentModelListener(pianoCanvas);
-        addInstrumentModelListener(player);
 
         // Set command listeners
         pianoCanvas.setCommandListener(this);
@@ -142,6 +158,14 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
      */
     public void destroyApp(boolean unconditional)
     {
+        try
+        {
+            // Stop player
+            player.stop();
+        }
+        catch(MediaException e)
+        {
+        }
     }
 
     /**
