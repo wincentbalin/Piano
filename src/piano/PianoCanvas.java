@@ -500,18 +500,18 @@ class PianoCanvas extends Canvas implements PianoView, InstrumentController
 
         switch(key)
         {
-            case KEY_NUM1: note = PianoNotes.NOTE_C; break;
-            case KEY_NUM2: note = PianoNotes.NOTE_C_SHARP; break;
-            case KEY_NUM3: note = PianoNotes.NOTE_D; break;
-            case KEY_NUM4: note = PianoNotes.NOTE_D_SHARP; break;
-            case KEY_NUM5: note = PianoNotes.NOTE_E; break;
-            case KEY_NUM6: note = PianoNotes.NOTE_F; break;
-            case KEY_NUM7: note = PianoNotes.NOTE_F_SHARP; break;
-            case KEY_NUM8: note = PianoNotes.NOTE_G; break;
-            case KEY_NUM9: note = PianoNotes.NOTE_G_SHARP; break;
-            case KEY_STAR: note = PianoNotes.NOTE_A; break;
-            case KEY_NUM0: note = PianoNotes.NOTE_A_SHARP; break;
-            case KEY_POUND: note = PianoNotes.NOTE_H; break;
+            case KEY_NUM1: note = NOTE_C; break;
+            case KEY_NUM2: note = NOTE_C_SHARP; break;
+            case KEY_NUM3: note = NOTE_D; break;
+            case KEY_NUM4: note = NOTE_D_SHARP; break;
+            case KEY_NUM5: note = NOTE_E; break;
+            case KEY_NUM6: note = NOTE_F; break;
+            case KEY_NUM7: note = NOTE_F_SHARP; break;
+            case KEY_NUM8: note = NOTE_G; break;
+            case KEY_NUM9: note = NOTE_G_SHARP; break;
+            case KEY_STAR: note = NOTE_A; break;
+            case KEY_NUM0: note = NOTE_A_SHARP; break;
+            case KEY_POUND: note = NOTE_H; break;
         }
 
         if(note > -1)
@@ -520,7 +520,6 @@ class PianoCanvas extends Canvas implements PianoView, InstrumentController
                     new InstrumentEvent(note, InstrumentEvent.KEY_PRESSED);
             sendEvent(ev, SINGLE_MODEL);
         }
-
     }
 
     /**
@@ -534,18 +533,18 @@ class PianoCanvas extends Canvas implements PianoView, InstrumentController
 
         switch(key)
         {
-            case KEY_NUM1: note = PianoNotes.NOTE_C; break;
-            case KEY_NUM2: note = PianoNotes.NOTE_C_SHARP; break;
-            case KEY_NUM3: note = PianoNotes.NOTE_D; break;
-            case KEY_NUM4: note = PianoNotes.NOTE_D_SHARP; break;
-            case KEY_NUM5: note = PianoNotes.NOTE_E; break;
-            case KEY_NUM6: note = PianoNotes.NOTE_F; break;
-            case KEY_NUM7: note = PianoNotes.NOTE_F_SHARP; break;
-            case KEY_NUM8: note = PianoNotes.NOTE_G; break;
-            case KEY_NUM9: note = PianoNotes.NOTE_G_SHARP; break;
-            case KEY_STAR: note = PianoNotes.NOTE_A; break;
-            case KEY_NUM0: note = PianoNotes.NOTE_A_SHARP; break;
-            case KEY_POUND: note = PianoNotes.NOTE_H; break;
+            case KEY_NUM1: note = NOTE_C; break;
+            case KEY_NUM2: note = NOTE_C_SHARP; break;
+            case KEY_NUM3: note = NOTE_D; break;
+            case KEY_NUM4: note = NOTE_D_SHARP; break;
+            case KEY_NUM5: note = NOTE_E; break;
+            case KEY_NUM6: note = NOTE_F; break;
+            case KEY_NUM7: note = NOTE_F_SHARP; break;
+            case KEY_NUM8: note = NOTE_G; break;
+            case KEY_NUM9: note = NOTE_G_SHARP; break;
+            case KEY_STAR: note = NOTE_A; break;
+            case KEY_NUM0: note = NOTE_A_SHARP; break;
+            case KEY_POUND: note = NOTE_H; break;
         }
 
         if(note > -1)
