@@ -391,7 +391,7 @@ class PianoCanvas extends Canvas implements PianoView, InstrumentController
         final int hy6 = hy5;
 
         setKeyColor(g, NOTE_H, keys[NOTE_H]);
-        g.fillRect(hx1, hy1, whiteKeyNarrowWidth, blackKeyHeight);
+        g.fillRect(hx1, hy1, hx2 - hx1, blackKeyHeight);
         g.fillRect(hx5, hy5, whiteKeyWidth, whiteKeyLesserHeight);
 
         if(!keys[NOTE_H])
