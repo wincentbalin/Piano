@@ -108,15 +108,7 @@ public class TonePlayer implements NotePlayer, PlayerListener
                         }
                     }
 
-                    // Stop the player and put it into a fresh state
-                    try
-                    {
-                        player.stop();
-                    }
-                    catch(MediaException e)
-                    {
-                        e.printStackTrace();
-                    }
+                    // Put player into a fresh state
                     player.deallocate();
                 }
             }
