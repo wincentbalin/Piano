@@ -38,7 +38,7 @@ public class TonePlayer implements NotePlayer
                 {
                     Manager.playTone(ev.getNote(),
                                      TONE_DURATION,
-                                     ev.getVelocity());
+                                     (ev.getVelocity() * 100) / 127);
                 }
                 catch(MediaException e)
                 {
