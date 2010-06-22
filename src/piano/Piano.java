@@ -1,8 +1,9 @@
 package piano;
 
+import java.util.Vector;
+
 import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.AlertType;
-import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
@@ -21,7 +22,7 @@ import javax.microedition.midlet.MIDlet;
  * @author Wincent Balin
  * @version 1
  */
-public class Piano extends MIDlet implements CommandListener
+public class Piano extends MIDlet implements CommandListener, PianoModel, PianoNotes
 {
     public static final String COMMAND_ABOUT = "About";
     public static final String COMMAND_EXIT = "Exit";
@@ -35,8 +36,13 @@ public class Piano extends MIDlet implements CommandListener
 
     private MIDIPlayer player;
 
-    private Canvas pianoCanvas;
+    private PianoCanvas pianoCanvas;
     private Form aboutForm;
+
+    private int octave;
+    private boolean[] keyPressed;
+
+    private Vector listeners;
 
     /**
      * Constructor of the MIDlet.
@@ -54,6 +60,15 @@ public class Piano extends MIDlet implements CommandListener
      */
     public void startApp()
     {
+        // Initialize piano model
+        octave = PIANO_FIRST_OCTAVE;
+
+        keyPressed = new boolean[MIDI_KEYS];
+        for(int i = 0; i < MIDI_KEYS; i++)
+            keyPressed[i] = false;
+
+        listeners = new Vector(1);
+
         // Get main display
         display = Display.getDisplay(this);
 
@@ -73,8 +88,12 @@ public class Piano extends MIDlet implements CommandListener
         }
 
         // Initialize different displayables
-        pianoCanvas = new PianoCanvas(player);
+        pianoCanvas = new PianoCanvas(this);
         aboutForm = new AboutForm();
+
+        // Connect controller, model and view
+        pianoCanvas.addInstrumentModel(this);
+        addInstrumentModelListener(pianoCanvas);
 
         // Add commands to appropriate forms
         pianoCanvas.addCommand(exit);
@@ -130,6 +149,77 @@ public class Piano extends MIDlet implements CommandListener
         else if(c == back && d == aboutForm)
         {
             display.setCurrent(pianoCanvas);
+        }
+    }
+
+    /**
+     * Implementation of PianoModel.
+     */
+    public boolean[] getCurrentOctaveKeys()
+    {
+        boolean[] keys = new boolean[PianoNotes.OCTAVE_NOTES];
+
+        System.arraycopy(keyPressed, MIDI_MIDDLE_C + octave * OCTAVE_NOTES,
+                         keys, NOTE_C,
+                         OCTAVE_NOTES);
+
+        return keys;
+    }
+
+    /**
+     * Implementation of PianoModel.
+     */
+    public void addInstrumentModelListener(InstrumentModelListener listener)
+    {
+        listeners.addElement(listener);
+    }
+
+    /**
+     * Implementation of PianoModel.
+     */
+    public void removeInstrumentModelListener(InstrumentModelListener listener)
+    {
+        listeners.removeElement(listener);
+    }
+
+    /**
+     * Implementation of PianoModel.
+     */
+    public void processEvent(InstrumentEvent e)
+    {
+        boolean notify = true;
+        int key;
+
+        switch(e.getCode())
+        {
+            case InstrumentEvent.KEY_PRESSED:
+                key = MIDI_MIDDLE_C + octave * OCTAVE_NOTES + e.getControl();
+                keyPressed[key] = true;
+                break;
+
+            case InstrumentEvent.KEY_RELEASED:
+                key = MIDI_MIDDLE_C + octave * OCTAVE_NOTES + e.getControl();
+                keyPressed[key] = false;
+                break;
+
+            default:
+                notify = false;
+                break;
+        }
+
+        // Notify listeners if needed
+        if(notify)
+            notifyListeners();
+    }
+
+    /**
+     * Implementation of PianoModel.
+     */
+    public void notifyListeners()
+    {
+        for(int i = 0; i < listeners.size(); i++)
+        {
+            ((PianoView)listeners.elementAt(i)).update();
         }
     }
 }

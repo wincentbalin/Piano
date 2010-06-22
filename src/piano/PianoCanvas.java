@@ -1,5 +1,7 @@
 package piano;
 
+import java.util.Vector;
+
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
@@ -9,23 +11,8 @@ import javax.microedition.lcdui.Graphics;
  * @author Wincent Balin
  */
 
-class PianoCanvas extends Canvas
+class PianoCanvas extends Canvas implements PianoView, InstrumentController
 {
-    public static final int KEYS = 127;
-
-    public static final int NOTE_C = 0;
-    public static final int NOTE_C_SHARP = 1;
-    public static final int NOTE_D = 2;
-    public static final int NOTE_D_SHARP = 3;
-    public static final int NOTE_E = 4;
-    public static final int NOTE_F = 5;
-    public static final int NOTE_F_SHARP = 6;
-    public static final int NOTE_G = 7;
-    public static final int NOTE_G_SHARP = 8;
-    public static final int NOTE_A = 9;
-    public static final int NOTE_A_SHARP = 10;
-    public static final int NOTE_H = 11;
-
     public static final int BLACK_COLOR = 0x00000000;
     public static final int WHITE_COLOR = 0x00FFFFFF;
     public static final int CONTOUR_COLOR = 0x00000000;
@@ -49,25 +36,25 @@ class PianoCanvas extends Canvas
         true
     };
 
-    private boolean[] keyPressed = new boolean[KEYS];
+    private Vector models;
 
-    private MIDIPlayer player;
-
-    private int octave = 0;
+    private PianoModel model;
 
     /**
      * Constructor.
      *
-     * @param player Player of notes
+     * @param model Model of a piano
      */
-    PianoCanvas(MIDIPlayer player)
+    PianoCanvas(PianoModel model)
     {
         // Initialize canvas
         super();
 
-        // Initialize key pressed field
-        for(int i = 0; i < KEYS; i++)
-            keyPressed[i] = false;
+        // Initialize vector of models
+        models = new Vector(1);
+
+        // Store model
+        this.model = model;
     }
 
     /**
@@ -77,6 +64,9 @@ class PianoCanvas extends Canvas
      */
     public void paint(Graphics g)
     {
+        // Array with keys pressed
+        final boolean[] keys = model.getCurrentOctaveKeys();
+
         // Get dimentions of display to draw upon
         final int width = getWidth();
         final int height = getHeight();
@@ -113,11 +103,11 @@ class PianoCanvas extends Canvas
         final int cx6 = cx1;
         final int cy6 = cy5;
 
-        setKeyColor(g, 0);
+        setKeyColor(g, NOTE_C, keys[NOTE_C]);
         g.fillRect(cx1, cy1, whiteKeyNarrowWidth, whiteKeyHeight);
         g.fillRect(cx3, cy3, blackKeyNarrowWidth, whiteKeyLesserHeight);
 
-        if(!keyPressed[0])
+        if(!keys[NOTE_C])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawLine(cx1, cy1, cx2, cy2);
@@ -138,10 +128,10 @@ class PianoCanvas extends Canvas
         //final int ccx4 = ccx1;
         //final int ccy4 = ccy3;
 
-        setKeyColor(g, 1);
+        setKeyColor(g, NOTE_C_SHARP, keys[NOTE_C_SHARP]);
         g.fillRect(ccx1, ccy1, blackKeyWidth, blackKeyHeight);
 
-        if(keyPressed[1])
+        if(keys[NOTE_C_SHARP])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawRect(ccx1, ccy1, blackKeyWidth, blackKeyHeight);
@@ -165,11 +155,11 @@ class PianoCanvas extends Canvas
         final int dx8 = dx1;
         final int dy8 = dy3;
 
-        setKeyColor(g, 2);
+        setKeyColor(g, NOTE_D, keys[NOTE_D]);
         g.fillRect(dx1, dy1, dx2 - dx1, blackKeyHeight);
         g.fillRect(dx7, dy7, whiteKeyWidth, whiteKeyLesserHeight);
 
-        if(!keyPressed[2])
+        if(!keys[NOTE_D])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawLine(dx1, dy1, dx2, dy2);
@@ -192,10 +182,10 @@ class PianoCanvas extends Canvas
         //final int ddx4 = ddx1;
         //final int ddy4 = ddy3;
 
-        setKeyColor(g, 3);
+        setKeyColor(g, NOTE_D_SHARP, keys[NOTE_D_SHARP]);
         g.fillRect(ddx1, ddy1, blackKeyWidth, blackKeyHeight);
 
-        if(keyPressed[3])
+        if(keys[NOTE_D_SHARP])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawRect(ddx1, ddy1, blackKeyWidth, blackKeyHeight);
@@ -215,11 +205,11 @@ class PianoCanvas extends Canvas
         final int ex6 = ex5 + blackKeyNarrowWidth;
         final int ey6 = ey5;
 
-        setKeyColor(g, 4);
+        setKeyColor(g, NOTE_E, keys[NOTE_E]);
         g.fillRect(ex1, ey1, whiteKeyNarrowWidth, blackKeyHeight);
         g.fillRect(ex5, ey5, whiteKeyWidth, whiteKeyLesserHeight);
 
-        if(!keyPressed[4])
+        if(!keys[NOTE_E])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawLine(ex1, ey1, ex2, ey2);
@@ -244,11 +234,11 @@ class PianoCanvas extends Canvas
         final int fx6 = fx1;
         final int fy6 = fy5;
 
-        setKeyColor(g, 5);
+        setKeyColor(g, NOTE_F, keys[NOTE_F]);
         g.fillRect(fx1, fy1, whiteKeyNarrowWidth, whiteKeyHeight);
         g.fillRect(fx3, fy3, blackKeyNarrowWidth, whiteKeyLesserHeight);
 
-        if(!keyPressed[5])
+        if(!keys[NOTE_F])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawLine(fx1, fy1, fx2, fy2);
@@ -269,10 +259,10 @@ class PianoCanvas extends Canvas
         //final int ffx4 = ffx1;
         //final int ffy4 = ffy3;
 
-        setKeyColor(g, 6);
+        setKeyColor(g, NOTE_F_SHARP, keys[NOTE_F_SHARP]);
         g.fillRect(ffx1, ffy1, blackKeyWidth, blackKeyHeight);
 
-        if(keyPressed[6])
+        if(keys[NOTE_F_SHARP])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawRect(ffx1, ffy1, blackKeyWidth, blackKeyHeight);
@@ -296,11 +286,11 @@ class PianoCanvas extends Canvas
         final int gx8 = gx1;
         final int gy8 = gy3;
 
-        setKeyColor(g, 7);
+        setKeyColor(g, NOTE_G, keys[NOTE_G]);
         g.fillRect(gx1, gy1, gx2 - gx1, blackKeyHeight);
         g.fillRect(gx7, gy7, whiteKeyWidth, whiteKeyLesserHeight);
 
-        if(!keyPressed[7])
+        if(!keys[NOTE_G])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawLine(gx1, gy1, gx2, gy2);
@@ -323,10 +313,10 @@ class PianoCanvas extends Canvas
         //final int ggx4 = ggx1;
         //final int ggy4 = ggy3;
 
-        setKeyColor(g, 8);
+        setKeyColor(g, NOTE_G_SHARP, keys[NOTE_G_SHARP]);
         g.fillRect(ggx1, ggy1, blackKeyWidth, blackKeyHeight);
 
-        if(keyPressed[8])
+        if(keys[NOTE_G_SHARP])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawRect(ggx1, ggy1, blackKeyWidth, blackKeyHeight);
@@ -350,11 +340,11 @@ class PianoCanvas extends Canvas
         final int ax8 = ax1;
         final int ay8 = ay3;
 
-        setKeyColor(g, 9);
+        setKeyColor(g, NOTE_A, keys[NOTE_A]);
         g.fillRect(ax1, ay1, ax2 - ax1, blackKeyHeight);
         g.fillRect(ax7, ay7, whiteKeyWidth, whiteKeyLesserHeight);
 
-        if(!keyPressed[9])
+        if(!keys[NOTE_A])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawLine(ax1, ay1, ax2, ay2);
@@ -377,10 +367,10 @@ class PianoCanvas extends Canvas
         //final int aax4 = aax1;
         //final int aay4 = aay3;
 
-        setKeyColor(g, 10);
+        setKeyColor(g, NOTE_A_SHARP, keys[NOTE_A_SHARP]);
         g.fillRect(aax1, aay1, blackKeyWidth, blackKeyHeight);
 
-        if(keyPressed[10])
+        if(keys[PianoNotes.NOTE_A_SHARP])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawRect(aax1, aay1, blackKeyWidth, blackKeyHeight);
@@ -400,11 +390,11 @@ class PianoCanvas extends Canvas
         final int hx6 = hx5 + blackKeyNarrowWidth;
         final int hy6 = hy5;
 
-        setKeyColor(g, 11);
+        setKeyColor(g, NOTE_H, keys[NOTE_H]);
         g.fillRect(hx1, hy1, whiteKeyNarrowWidth, blackKeyHeight);
         g.fillRect(hx5, hy5, whiteKeyWidth, whiteKeyLesserHeight);
 
-        if(!keyPressed[11])
+        if(!keys[NOTE_H])
         {
             g.setColor(CONTOUR_COLOR);
             g.drawLine(hx1, hy1, hx2, hy2);
@@ -483,12 +473,13 @@ class PianoCanvas extends Canvas
      * Set color of the key.
      *
      * @param g Graphics to paint upon
-     * @param index Index of the in an octave
+     * @param note Index of the note
+     * @param pressed Stated of the key (pressed or not)
      */
-    private void setKeyColor(Graphics g, int index)
+    private void setKeyColor(Graphics g, int note, boolean pressed)
     {
-        if(WHITE_KEY[index] && !keyPressed[index] ||
-           !WHITE_KEY[index] && keyPressed[index])
+        if(WHITE_KEY[note] && !pressed ||
+           !WHITE_KEY[note] && pressed)
         {
             g.setColor(WHITE_COLOR);
         }
@@ -505,32 +496,31 @@ class PianoCanvas extends Canvas
      */
     public void keyPressed(int key)
     {
-        boolean keyProcessed = true;
         int note = -1;
 
         switch(key)
         {
-            case KEY_NUM1: keyPressed[0] = true; note = 0; break;
-            case KEY_NUM2: keyPressed[1] = true; note = 1; break;
-            case KEY_NUM3: keyPressed[2] = true; note = 2; break;
-            case KEY_NUM4: keyPressed[3] = true; note = 3; break;
-            case KEY_NUM5: keyPressed[4] = true; note = 4; break;
-            case KEY_NUM6: keyPressed[5] = true; note = 5; break;
-            case KEY_NUM7: keyPressed[6] = true; note = 6; break;
-            case KEY_NUM8: keyPressed[7] = true; note = 7; break;
-            case KEY_NUM9: keyPressed[8] = true; note = 8; break;
-            case KEY_STAR: keyPressed[9] = true; note = 9; break;
-            case KEY_NUM0: keyPressed[10] = true; note = 10; break;
-            case KEY_POUND: keyPressed[11] = true; note = 11; break;
-
-            default: keyProcessed = false; break;
+            case KEY_NUM1: note = PianoNotes.NOTE_C; break;
+            case KEY_NUM2: note = PianoNotes.NOTE_C_SHARP; break;
+            case KEY_NUM3: note = PianoNotes.NOTE_D; break;
+            case KEY_NUM4: note = PianoNotes.NOTE_D_SHARP; break;
+            case KEY_NUM5: note = PianoNotes.NOTE_E; break;
+            case KEY_NUM6: note = PianoNotes.NOTE_F; break;
+            case KEY_NUM7: note = PianoNotes.NOTE_F_SHARP; break;
+            case KEY_NUM8: note = PianoNotes.NOTE_G; break;
+            case KEY_NUM9: note = PianoNotes.NOTE_G_SHARP; break;
+            case KEY_STAR: note = PianoNotes.NOTE_A; break;
+            case KEY_NUM0: note = PianoNotes.NOTE_A_SHARP; break;
+            case KEY_POUND: note = PianoNotes.NOTE_H; break;
         }
 
         if(note > -1)
-            player.noteOn(octave, note);
+        {
+            InstrumentEvent ev =
+                    new InstrumentEvent(note, InstrumentEvent.KEY_PRESSED);
+            sendEvent(ev, SINGLE_MODEL);
+        }
 
-        if(keyProcessed)
-            repaint();
     }
 
     /**
@@ -540,31 +530,61 @@ class PianoCanvas extends Canvas
      */
     public void keyReleased(int key)
     {
-        boolean keyProcessed = true;
         int note = -1;
 
         switch(key)
         {
-            case KEY_NUM1: keyPressed[0] = true; note = 0; break;
-            case KEY_NUM2: keyPressed[1] = true; note = 1; break;
-            case KEY_NUM3: keyPressed[2] = true; note = 2; break;
-            case KEY_NUM4: keyPressed[3] = true; note = 3; break;
-            case KEY_NUM5: keyPressed[4] = true; note = 4; break;
-            case KEY_NUM6: keyPressed[5] = true; note = 5; break;
-            case KEY_NUM7: keyPressed[6] = true; note = 6; break;
-            case KEY_NUM8: keyPressed[7] = true; note = 7; break;
-            case KEY_NUM9: keyPressed[8] = true; note = 8; break;
-            case KEY_STAR: keyPressed[9] = true; note = 9; break;
-            case KEY_NUM0: keyPressed[10] = true; note = 10; break;
-            case KEY_POUND: keyPressed[11] = true; note = 11; break;
-
-            default: keyProcessed = false; break;
+            case KEY_NUM1: note = PianoNotes.NOTE_C; break;
+            case KEY_NUM2: note = PianoNotes.NOTE_C_SHARP; break;
+            case KEY_NUM3: note = PianoNotes.NOTE_D; break;
+            case KEY_NUM4: note = PianoNotes.NOTE_D_SHARP; break;
+            case KEY_NUM5: note = PianoNotes.NOTE_E; break;
+            case KEY_NUM6: note = PianoNotes.NOTE_F; break;
+            case KEY_NUM7: note = PianoNotes.NOTE_F_SHARP; break;
+            case KEY_NUM8: note = PianoNotes.NOTE_G; break;
+            case KEY_NUM9: note = PianoNotes.NOTE_G_SHARP; break;
+            case KEY_STAR: note = PianoNotes.NOTE_A; break;
+            case KEY_NUM0: note = PianoNotes.NOTE_A_SHARP; break;
+            case KEY_POUND: note = PianoNotes.NOTE_H; break;
         }
 
         if(note > -1)
-            player.noteOff(octave, note);
+        {
+            InstrumentEvent ev =
+                    new InstrumentEvent(note, InstrumentEvent.KEY_RELEASED);
+            sendEvent(ev, SINGLE_MODEL);
+        }
+    }
 
-        if(keyProcessed)
-            repaint();
+    /**
+     * Implementation of PianoView.
+     */
+    public void update()
+    {
+        repaint();
+    }
+
+    /**
+     * Implementation of InstrumentController.
+     */
+    public void addInstrumentModel(PianoModel model)
+    {
+        models.addElement(model);
+    }
+
+    /**
+     * Implementation of InstrumentController.
+     */
+    public void removeInstrumentModel(PianoModel model)
+    {
+        models.removeElement(model);
+    }
+
+    /**
+     * Implementation of InstrumentController.
+     */
+    public void sendEvent(InstrumentEvent e, int index)
+    {
+        ((InstrumentModel) models.elementAt(index)).processEvent(e);
     }
 }
