@@ -202,7 +202,7 @@ class PianoCanvas extends Canvas implements PianoView, InstrumentController
         final int ey4 = ey3;
         final int ex5 = ex4;
         final int ey5 = dy4;
-        final int ex6 = ex5 + blackKeyNarrowWidth;
+        final int ex6 = ex1;
         final int ey6 = ey5;
 
         setKeyColor(g, NOTE_E, keys[NOTE_E]);
@@ -387,7 +387,7 @@ class PianoCanvas extends Canvas implements PianoView, InstrumentController
         final int hy4 = hy3;
         final int hx5 = hx4;
         final int hy5 = ay4;
-        final int hx6 = hx5 + blackKeyNarrowWidth;
+        final int hx6 = hx1;
         final int hy6 = hy5;
 
         setKeyColor(g, NOTE_H, keys[NOTE_H]);
