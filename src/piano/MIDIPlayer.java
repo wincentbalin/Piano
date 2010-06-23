@@ -46,6 +46,8 @@ public class MIDIPlayer implements NotePlayer
 
     private int[] banks;
 
+    private boolean running;
+
 
     /**
      * Constructor.
@@ -81,6 +83,9 @@ public class MIDIPlayer implements NotePlayer
             // Get all (=false) available banks
             banks = control.getBankList(false);
         }
+
+        // Run player
+        running = true;
     }
 
     /**
@@ -158,6 +163,7 @@ public class MIDIPlayer implements NotePlayer
      */
     public void stop()
     {
+        running = false;
     }
 
     /**
@@ -165,7 +171,7 @@ public class MIDIPlayer implements NotePlayer
      */
     public void run()
     {
-        while(true)
+        while(running)
         {
             while(model.hasMoreNoteEvents())
             {

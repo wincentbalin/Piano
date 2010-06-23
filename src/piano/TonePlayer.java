@@ -32,6 +32,8 @@ public class TonePlayer implements NotePlayer, PlayerListener
 
     private int originalVolumeLevel;
 
+    private boolean running;
+
     /**
      * Constructor.
      *
@@ -57,6 +59,9 @@ public class TonePlayer implements NotePlayer, PlayerListener
         // Get volume control
         volume = (VolumeControl) player.getControl("VolumeControl");
         originalVolumeLevel = volume.getLevel();
+
+        // Run player
+        running = true;
     }
 
     /**
@@ -64,7 +69,7 @@ public class TonePlayer implements NotePlayer, PlayerListener
      */
     public void run()
     {
-        while(true)
+        while(running)
         {
             if(model.hasMoreNoteEvents())
             {
@@ -130,6 +135,9 @@ public class TonePlayer implements NotePlayer, PlayerListener
      */
     public void stop() throws MediaException
     {
+        // Stop thread
+        running = false;
+
         // Stop player
         player.stop();
 
