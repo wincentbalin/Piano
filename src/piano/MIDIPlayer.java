@@ -149,8 +149,9 @@ public class MIDIPlayer implements NotePlayer
      */
     public void setProgram(int index)
     {
-        int bank = banks[index / 127];
-        int program = index % 127;
+        final int PROGRAMS_PER_BANK = 128;
+        int bank = banks[index / PROGRAMS_PER_BANK];
+        int program = index % PROGRAMS_PER_BANK;
 
         // Use first channel
         control.setProgram(CHANNEL, bank, program);
