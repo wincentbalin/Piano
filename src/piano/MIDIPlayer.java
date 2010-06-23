@@ -147,18 +147,6 @@ public class MIDIPlayer implements NotePlayer
     }
 
     /**
-     * Convert octave/note combination to MIDI note number.
-     *
-     * @param octave Octave of the note (first: 0, second: 1, small: -1, etc)
-     * @param note Pitch of the note (C: 0, C#: 1, D: 2, etc)
-     * @return MIDI note number
-     */
-    private int calculateMIDINote(int octave, int note)
-    {
-        return 60 + octave * 12 + note;
-    }
-
-    /**
      * Implementation of NotePlayer.
      */
     public void stop()
