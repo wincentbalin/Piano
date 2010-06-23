@@ -11,8 +11,8 @@ import javax.microedition.lcdui.StringItem;
 
 public class HelpForm extends Form
 {
-    public static final String helpTitle = "Help";
-    public static final String helpText =
+    public static final String HELP_TITLE = "Help";
+    public static final String HELP_TEXT =
             "This is a simple music instrument.\n" +
             "Use keypad to play it. The helper under the keyboard " +
             "shows corresponding buttons and keys.\n" +
@@ -27,9 +27,9 @@ public class HelpForm extends Form
     public HelpForm()
     {
         // Create formular with appropriate title
-        super(helpTitle);
+        super(HELP_TITLE);
 
         // Add text with description of the program
-        append(new StringItem(null, helpText, StringItem.PLAIN));
+        append(new StringItem(null, HELP_TEXT, StringItem.PLAIN));
     }
 }
