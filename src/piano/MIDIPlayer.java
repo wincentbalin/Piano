@@ -32,9 +32,19 @@ public class MIDIPlayer implements NotePlayer
     public static final int MIDI_NOTE_OFF = 0x80;
 
     /**
-     * MIDI event Control Change.
+     * MIDI event Program Change.
      */
     public static final int MIDI_PROGRAM_CHANGE = 0xC0;
+
+    /**
+     * MIDI event Control Change.
+     */
+    public static final int MIDI_CONTROL_CHANGE = 0xB0;
+
+    /**
+     * MIDI control event All Notes Off.
+     */
+    public static final int MIDI_CONTROL_ALL_NOTES_OFF = 0x78;
 
     private PianoModel model;
 
@@ -151,6 +161,12 @@ public class MIDIPlayer implements NotePlayer
      */
     public void stop()
     {
+        // Stop MIDI synth
+        control.shortMidiEvent(MIDI_CONTROL_CHANGE | CHANNEL,
+                               MIDI_CONTROL_ALL_NOTES_OFF,
+                               0);
+
+        // Stop thread
         running = false;
     }
 
