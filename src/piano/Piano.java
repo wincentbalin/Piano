@@ -129,14 +129,6 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
                 display.setCurrent(alert, pianoCanvas);
                 System.exit(1);
             }
-
-            // Alert user about certain disability
-            Alert alert = new Alert("Warning",
-                                    "You will not be able to change the timbre!",
-                                    null,
-                                    AlertType.WARNING);
-            alert.setTimeout(3000);
-            display.setCurrent(alert, pianoCanvas);
         }
 
         // Start player
