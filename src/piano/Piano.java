@@ -27,11 +27,13 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
 {
     public static final String COMMAND_HELP = "Help";
     public static final String COMMAND_VOLUME = "Volume";
+    public static final String COMMAND_TIMBRES = "Timbres";
     public static final String COMMAND_EXIT = "Exit";
     public static final String COMMAND_BACK = "Back";
 
     private Command help;
     private Command volume;
+    private Command timbres;
     private Command exit;
     private Command back;
 
@@ -45,10 +47,13 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     private Form helpForm;
     private Form volumeForm;
     private VolumeInterface volumeInterface;
+    private Form timbreForm;
+    private TimbreInterface timbreInterface;
 
     private int octave;
     private boolean[] keyPressed;
     private int velocity;
+    private int timbre;
 
     private Vector noteEvents;
 
@@ -60,8 +65,9 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     public Piano()
     {
         // Initialize commands
-        help = new Command(COMMAND_HELP, Command.SCREEN, 2);
-        volume = new Command(COMMAND_VOLUME, Command.SCREEN, 1);
+        help = new Command(COMMAND_HELP, Command.SCREEN, 3);
+        volume = new Command(COMMAND_VOLUME, Command.SCREEN, 2);
+        timbres = new Command(COMMAND_TIMBRES, Command.SCREEN, 1);
         exit = new Command(COMMAND_EXIT, Command.EXIT, 0);
         back = new Command(COMMAND_BACK, Command.BACK, 0);
 
@@ -86,6 +92,8 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
             keyPressed[i] = false;
 
         velocity = 100;
+
+        timbre = 0; // Acoustic piano
 
         // Get main display
         display = Display.getDisplay(this);
@@ -140,6 +148,11 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         helpForm = new HelpForm();
         volumeForm = new VolumeForm(velocity);
         volumeInterface = (VolumeInterface) volumeForm;
+        if(player instanceof MIDIPlayer)
+        {
+            timbreForm = new TimbreForm(player);
+            timbreInterface = (TimbreInterface) timbreForm;
+        }
 
         // Add commands to appropriate forms
         pianoCanvas.addCommand(exit);
@@ -147,6 +160,11 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         pianoCanvas.addCommand(help);
         helpForm.addCommand(back);
         volumeForm.addCommand(back);
+        if(timbreForm != null)
+        {
+            pianoCanvas.addCommand(timbres);
+            timbreForm.addCommand(back);
+        }
 
         // Connect controller, model and view
         pianoCanvas.addInstrumentModel(this);
@@ -154,6 +172,8 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
 
         // Set command listeners
         pianoCanvas.setCommandListener(this);
+        if(timbreForm != null)
+            timbreForm.setCommandListener(this);
         volumeForm.setCommandListener(this);
         helpForm.setCommandListener(this);
     }
@@ -249,11 +269,22 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
             }
         }
 
-        // Handle back command in the volume form
-        else if(c.equals(back) && d.equals(volumeForm))
+        // Handle timbre form commands
+        else if(d.equals(timbreForm))
         {
-            display.setCurrent(pianoCanvas);
-            velocity = volumeInterface.getVolume();
+            // Handle "choose" command
+            if(c.getCommandType() == Command.ITEM)
+            {
+                display.setCurrent(pianoCanvas);
+                timbre = timbreInterface.getTimbreIndex();
+                player.setTimbre(timbre);
+            }
+
+            // Handle back command
+            else if(c.equals(back))
+            {
+                display.setCurrent(pianoCanvas);
+            }
         }
     }
 
