@@ -34,7 +34,7 @@ public class Localization_en implements LocalizationInterface
                        "shows buttons on the keypad and corresponding keys.\n" +
                        "It is possible that you will not be able " +
                        "to use more than one or two keys at once " +
-                       "due to the limitations of the keypad.\n";
+                       "due to the limitations of the keypad.";
             case ID_HELP_SECTION_OCTAVE_TITLE: return "Changing octave";
             case ID_HELP_SECTION_OCTAVE_TEXT:
                 return "Use arrow keys to change the octave.";

@@ -26,13 +26,15 @@ import javax.microedition.rms.RecordStoreException;
  */
 public class Piano extends MIDlet implements CommandListener, PianoModel, PianoNotes
 {
-    public static final String COMMAND_HELP = "Help";
-    public static final String COMMAND_VOLUME = "Volume";
-    public static final String COMMAND_TIMBRES = "Timbres";
-    public static final String COMMAND_EXIT = "Exit";
-    public static final String COMMAND_BACK = "Back";
-    public static final String COMMAND_OK = "OK";
-    public static final String COMMAND_CANCEL = "Cancel";
+    private LocalizationInterface locale;
+
+    private String labelCommandHelp;
+    private String labelCommandVolume;
+    private String labelCommandTimbres;
+    private String labelCommandExit;
+    private String labelCommandBack;
+    private String labelCommandOK;
+    private String labelCommandCancel;
 
     private Command help;
     private Command volume;
@@ -67,17 +69,52 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
 
     /**
      * Constructor of the MIDlet.
+     *
+     * @throws IllegalAccessException
+     * @throws InstantiationException
      */
-    public Piano()
+    public Piano() throws IllegalAccessException, InstantiationException
     {
+        // Initialize localization
+        String localizationName = "piano.Localization_" +
+                                  System.getProperty("microedition.locale");
+        Class localizationClass = null;
+
+        try
+        {
+            localizationClass = Class.forName(localizationName);
+        }
+        catch(ClassNotFoundException e)
+        {
+            try
+            {
+                localizationClass = Class.forName("piano.Localization_en");
+            }
+            catch(ClassNotFoundException e2)
+            {
+                e2.printStackTrace();
+            }
+        }
+
+        locale = (LocalizationInterface) localizationClass.newInstance();
+
+        // Get localized command labels
+        labelCommandHelp = locale.getResource(LocalizationInterface.ID_HELP);
+        labelCommandVolume = locale.getResource(LocalizationInterface.ID_VOLUME);
+        labelCommandTimbres = locale.getResource(LocalizationInterface.ID_TIMBRES);
+        labelCommandExit = locale.getResource(LocalizationInterface.ID_COMMAND_EXIT);
+        labelCommandBack = locale.getResource(LocalizationInterface.ID_COMMAND_BACK);
+        labelCommandOK = locale.getResource(LocalizationInterface.ID_COMMAND_OK);
+        labelCommandCancel = locale.getResource(LocalizationInterface.ID_COMMAND_CANCEL);
+
         // Initialize commands
-        exit = new Command(COMMAND_EXIT, Command.SCREEN, 4);
-        volume = new Command(COMMAND_VOLUME, Command.SCREEN, 3);
-        timbres = new Command(COMMAND_TIMBRES, Command.SCREEN, 2);
-        help = new Command(COMMAND_HELP, Command.SCREEN, 1);
-        back = new Command(COMMAND_BACK, Command.BACK, 0);
-        ok = new Command(COMMAND_OK, Command.OK, 0);
-        cancel = new Command(COMMAND_CANCEL, Command.CANCEL, 1);
+        exit = new Command(labelCommandExit, Command.SCREEN, 4);
+        volume = new Command(labelCommandVolume, Command.SCREEN, 3);
+        timbres = new Command(labelCommandTimbres, Command.SCREEN, 2);
+        help = new Command(labelCommandHelp, Command.SCREEN, 1);
+        back = new Command(labelCommandBack, Command.BACK, 0);
+        ok = new Command(labelCommandOK, Command.OK, 0);
+        cancel = new Command(labelCommandCancel, Command.CANCEL, 1);
 
         // Create arrays and vectors
         keyPressed = new boolean[MIDI_KEYS];
@@ -114,7 +151,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         display = Display.getDisplay(this);
 
         // Initialize main canvas
-        pianoCanvas = new PianoCanvas(this);
+        pianoCanvas = new PianoCanvas(this, locale);
 
         // Set main canvas
         display.setCurrent(pianoCanvas);
@@ -134,8 +171,8 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
             catch(Exception et)
             {
                 // Alert user about absence of tone generator
-                Alert alert = new Alert("Error",
-                                        "No tone generator present!",
+                Alert alert = new Alert(locale.getResource(LocalizationInterface.ID_ERROR),
+                                        locale.getResource(LocalizationInterface.ID_ERROR_NO_TONE_GENERATOR),
                                         null,
                                         AlertType.ERROR);
                 alert.setTimeout(3000);
@@ -149,12 +186,12 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         playerThread.start();
 
         // Initialize different displayables
-        helpForm = new HelpForm();
-        volumeForm = new VolumeForm(velocity);
+        helpForm = new HelpForm(locale);
+        volumeForm = new VolumeForm(velocity, locale);
         volumeInterface = (VolumeInterface) volumeForm;
         if(player.timbresAvailable())
         {
-            timbreForm = new TimbreForm(player);
+            timbreForm = new TimbreForm(player, locale);
             timbreInterface = (TimbreInterface) timbreForm;
         }
 

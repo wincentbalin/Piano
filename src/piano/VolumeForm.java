@@ -11,22 +11,21 @@ import javax.microedition.lcdui.Gauge;
 
 public class VolumeForm extends Form implements VolumeInterface
 {
-    public static final String volumeTitle = "Volume";
-    
     private Gauge volumeGauge;
 
     /**
      * Constructor.
      *
      * @param volume Initial volume
+     * @param locale Localization
      */
-    VolumeForm(int volume)
+    public VolumeForm(int volume, LocalizationInterface locale)
     {
         // Create formular with appropriate title
-        super(volumeTitle);
+        super(locale.getResource(LocalizationInterface.ID_VOLUME));
 
         // Instantiate gauge widget
-        volumeGauge = new Gauge(volumeTitle, true, 127, 0);
+        volumeGauge = new Gauge(getTitle(), true, 127, 0);
 
         // Place volume gauge
         append(volumeGauge);

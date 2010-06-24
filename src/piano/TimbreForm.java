@@ -11,20 +11,21 @@ import javax.microedition.lcdui.Form;
 
 public class TimbreForm extends Form implements TimbreInterface
 {
-    public static final String TIMBRE_TITLE = "Timbres";
-
     private ChoiceGroup timbreList;
 
     /**
      * Constructor.
+     *
+     * @param player Note player with timbre list
+     * @param locale Localization
      */
-    public TimbreForm(NotePlayer player)
+    public TimbreForm(NotePlayer player, LocalizationInterface locale)
     {
         // Set title
-        super(TIMBRE_TITLE);
+        super(locale.getResource(LocalizationInterface.ID_TIMBRES));
 
         // Create list of timbres
-        timbreList = new ChoiceGroup(TIMBRE_TITLE,
+        timbreList = new ChoiceGroup(getTitle(),
                                      ChoiceGroup.EXCLUSIVE,
                                      player.getTimbresList(),
                                      null);

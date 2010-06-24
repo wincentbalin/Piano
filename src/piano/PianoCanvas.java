@@ -61,18 +61,24 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
 
     private PianoModel model;
 
+    private String octaveString;
+
     /**
      * Constructor.
      *
      * @param model Model of a piano
+     * @param locale Localization
      */
-    public PianoCanvas(PianoModel model)
+    public PianoCanvas(PianoModel model, LocalizationInterface locale)
     {
         // Initialize canvas
         super();
 
         // Initialize vector of models
         models = new Vector(1);
+
+        // Get octave string
+        octaveString = locale.getResource(LocalizationInterface.ID_OCTAVE);
 
         // Store model
         this.model = model;
@@ -470,7 +476,8 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
         /* Draw octave. */
         final int oy = dcyw + fontHeight;
         StringBuffer octaveBuffer = new StringBuffer();
-        octaveBuffer.append("Octave < ");
+        octaveBuffer.append(octaveString);
+        octaveBuffer.append(" < ");
         octaveBuffer.append(model.getOctave());
         octaveBuffer.append(" >");
         g.drawString(octaveBuffer.toString(),
