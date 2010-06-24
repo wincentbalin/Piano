@@ -147,7 +147,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         helpForm = new HelpForm();
         volumeForm = new VolumeForm(velocity);
         volumeInterface = (VolumeInterface) volumeForm;
-        if(player instanceof MIDIPlayer)
+        if(player.timbresAvailable())
         {
             timbreForm = new TimbreForm(player);
             timbreInterface = (TimbreInterface) timbreForm;

@@ -143,7 +143,7 @@ public class MIDIPlayer implements NotePlayer
     }
 
     /**
-     * Set program on the first channel.
+     * Set program on the used MIDI channel.
      *
      * @param index Index in the previously created list of program names
      */
@@ -153,7 +153,6 @@ public class MIDIPlayer implements NotePlayer
         int bank = banks[index / PROGRAMS_PER_BANK];
         int program = index % PROGRAMS_PER_BANK;
 
-        // Use first channel
         control.setProgram(CHANNEL, bank, program);
     }
 
