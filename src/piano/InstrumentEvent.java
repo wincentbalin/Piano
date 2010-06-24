@@ -21,6 +21,16 @@ public class InstrumentEvent
      * A key was released.
      */
     public static final int KEY_RELEASED = 2;
+
+    /**
+     * Keyboard went one octave up.
+     */
+    public static final int OCTAVE_UP = 3;
+
+    /**
+     * Keyboard went one octave down.
+     */
+    public static final int OCTAVE_DOWN = 4;
     
     private int control;
     private int code;

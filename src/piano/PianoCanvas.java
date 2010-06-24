@@ -97,7 +97,7 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
         // Calculate dimension of a key
         final int whiteKeyWidth = (width - MARGIN * 2) / 7;
         final int whiteKeyHeight = height -
-                (MARGIN + KEYS_NOTES_DISTANCE + fontHeight * 2);
+                (MARGIN + KEYS_NOTES_DISTANCE + fontHeight * 3);
         final int blackKeyWidth = whiteKeyWidth / 2; // One half
         final int blackKeyHeight = whiteKeyHeight / 2; // One half
         final int blackKeyNarrowWidth = blackKeyWidth / 2;
@@ -409,7 +409,7 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
 
         g.setColor(CONTOUR_COLOR);
 
-        final int dcyw = height;
+        final int dcyw = height - fontHeight;
         final int dcyb = dcyw - fontHeight;
 
         final int yl = cy6 + 5;
@@ -467,6 +467,16 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
         g.drawChar('#', dchx1, dcyw, Graphics.BOTTOM | Graphics.HCENTER);
         g.drawLine(dchx1, dcylw, dchx1, yl);
 
+        /* Draw octave. */
+        final int oy = dcyw + fontHeight;
+        StringBuffer octaveBuffer = new StringBuffer();
+        octaveBuffer.append("Octave < ");
+        octaveBuffer.append(model.getOctave());
+        octaveBuffer.append(" >");
+        g.drawString(octaveBuffer.toString(),
+                     width / 2,
+                     oy,
+                     Graphics.BOTTOM | Graphics.HCENTER);
     }
 
     /**
@@ -496,8 +506,10 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
      */
     public void keyPressed(int key)
     {
+        InstrumentEvent ev;
         int note = -1;
 
+        // Handle keyboard keys
         switch(key)
         {
             case KEY_NUM1: note = NOTE_C; break;
@@ -516,9 +528,32 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
 
         if(note > -1)
         {
-            InstrumentEvent ev =
-                    new InstrumentEvent(note, InstrumentEvent.KEY_PRESSED);
+            ev = new InstrumentEvent(note, InstrumentEvent.KEY_PRESSED);
             sendEvent(ev, SINGLE_MODEL);
+            return;
+        }
+
+        int action = getGameAction(key);
+
+        int octave = -1;
+
+        // Handle keyboard octave
+        switch(action)
+        {
+            case UP: octave = 1; break;
+            case DOWN: octave = 0; break;
+            case RIGHT: octave = 1; break;
+            case LEFT: octave = 0; break;
+        }
+
+        if(octave > -1)
+        {
+            int octaveOperation = (octave == 1) ?
+                                   InstrumentEvent.OCTAVE_UP :
+                                   InstrumentEvent.OCTAVE_DOWN;
+            ev = new InstrumentEvent(0, octaveOperation);
+            sendEvent(ev, SINGLE_MODEL);
+            return;
         }
     }
 

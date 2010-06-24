@@ -389,6 +389,14 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
                 noteEvents.addElement(ev);
                 break;
 
+            case InstrumentEvent.OCTAVE_UP:
+                setOctave(getOctave() + 1);
+                break;
+
+            case InstrumentEvent.OCTAVE_DOWN:
+                setOctave(getOctave() - 1);
+                break;
+
             default:
                 notify = false;
                 break;
