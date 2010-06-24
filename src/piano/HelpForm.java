@@ -16,6 +16,8 @@ public class HelpForm extends Form
             "This is a simple music instrument.\n" +
             "Use keypad to play it. The helper under the keyboard " +
             "shows corresponding buttons and keys.\n" +
+            "It is possible that you will not be able " +
+            "to use more than one or two keys at once.\n" +
             "\n" +
             "Copyright (C) 2010 Wincent Balin\n" +
             "\n" +
