@@ -191,30 +191,62 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
      */
     public void commandAction(Command c, Displayable d)
     {
-        // Handle exit command
-        if(c.equals(exit) && d.equals(pianoCanvas))
+        // Handle piano canvas commands
+        if(d.equals(pianoCanvas))
         {
-            destroyApp(false);
-            notifyDestroyed();
+            // Handle exit command
+            if(c.equals(exit))
+            {
+                destroyApp(false);
+                notifyDestroyed();
+            }
+
+            // Handle help command
+            else if(c.equals(help))
+            {
+                display.setCurrent(helpForm);
+            }
+
+            // Handle volume command
+            else if(c.equals(volume))
+            {
+                volumeInterface.setVolume(velocity);
+                display.setCurrent(volumeForm);
+            }
+
+            // Handle timbres command
+            else if(c.equals(timbres))
+            {
+                timbreInterface.setTimbreIndex(timbre);
+                display.setCurrent(timbreForm);
+            }
         }
 
-        // Handle help command
-        else if(c.equals(help) && d.equals(pianoCanvas))
+        // Handle help form commands
+        else if(d.equals(helpForm))
         {
-            display.setCurrent(helpForm);
+            // Handle back command
+            if(c.equals(back))
+            {
+                display.setCurrent(pianoCanvas);
+            }
         }
 
-        // Handle volume command
-        else if(c.equals(volume) && d.equals(pianoCanvas))
+        // Handle volume form commands
+        else if(d.equals(volumeForm))
         {
-            volumeInterface.setVolume(velocity);
-            display.setCurrent(volumeForm);
-        }
+            // Handle "choose" command
+            if(c.getCommandType() == Command.ITEM)
+            {
+                display.setCurrent(pianoCanvas);
+                velocity = volumeInterface.getVolume();
+            }
 
-        // Handle back command in the help form
-        else if(c.equals(back) && d.equals(helpForm))
-        {
-            display.setCurrent(pianoCanvas);
+            // Handle back command
+            else if(c.equals(back))
+            {
+                display.setCurrent(pianoCanvas);
+            }
         }
 
         // Handle back command in the volume form
