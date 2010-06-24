@@ -158,11 +158,13 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         pianoCanvas.addCommand(volume);
         pianoCanvas.addCommand(help);
         helpForm.addCommand(back);
-        volumeForm.addCommand(back);
+        volumeForm.addCommand(ok);
+        volumeForm.addCommand(cancel);
         if(timbreForm != null)
         {
             pianoCanvas.addCommand(timbres);
-            timbreForm.addCommand(back);
+            timbreForm.addCommand(ok);
+            timbreForm.addCommand(cancel);
         }
 
         // Connect controller, model and view
@@ -254,15 +256,15 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         // Handle volume form commands
         else if(d.equals(volumeForm))
         {
-            // Handle "choose" command
-            if(c.getCommandType() == Command.ITEM)
+            // Handle ok command
+            if(c.equals(ok))
             {
                 display.setCurrent(pianoCanvas);
                 velocity = volumeInterface.getVolume();
             }
 
-            // Handle back command
-            else if(c.equals(back))
+            // Handle cancel command
+            else if(c.equals(cancel))
             {
                 display.setCurrent(pianoCanvas);
             }
@@ -271,16 +273,16 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         // Handle timbre form commands
         else if(d.equals(timbreForm))
         {
-            // Handle "choose" command
-            if(c.getCommandType() == Command.ITEM)
+            // Handle ok command
+            if(c.equals(ok))
             {
                 display.setCurrent(pianoCanvas);
                 timbre = timbreInterface.getTimbreIndex();
                 player.setTimbre(timbre);
             }
 
-            // Handle back command
-            else if(c.equals(back))
+            // Handle cancel command
+            else if(c.equals(cancel))
             {
                 display.setCurrent(pianoCanvas);
             }
