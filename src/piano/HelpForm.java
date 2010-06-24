@@ -18,6 +18,7 @@ public class HelpForm extends Form
             "shows corresponding buttons and keys.\n" +
             "It is possible that you will not be able " +
             "to use more than one or two keys at once.\n" +
+            "Use arrow keys to change the octave.\n" +
             "\n" +
             "Copyright (C) 2010 Wincent Balin\n" +
             "\n" +
