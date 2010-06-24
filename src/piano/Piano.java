@@ -30,12 +30,16 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     public static final String COMMAND_TIMBRES = "Timbres";
     public static final String COMMAND_EXIT = "Exit";
     public static final String COMMAND_BACK = "Back";
+    public static final String COMMAND_OK = "OK";
+    public static final String COMMAND_CANCEL = "Cancel";
 
     private Command help;
     private Command volume;
     private Command timbres;
     private Command exit;
     private Command back;
+    private Command ok;
+    private Command cancel;
 
     private Display display;
 
@@ -69,6 +73,8 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         timbres = new Command(COMMAND_TIMBRES, Command.SCREEN, 1);
         exit = new Command(COMMAND_EXIT, Command.EXIT, 0);
         back = new Command(COMMAND_BACK, Command.BACK, 0);
+        ok = new Command(COMMAND_OK, Command.OK, 0);
+        cancel = new Command(COMMAND_CANCEL, Command.CANCEL, 1);
 
         // Create arrays and vectors
         keyPressed = new boolean[MIDI_KEYS];
