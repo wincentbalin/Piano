@@ -71,7 +71,7 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         help = new Command(COMMAND_HELP, Command.SCREEN, 3);
         volume = new Command(COMMAND_VOLUME, Command.SCREEN, 2);
         timbres = new Command(COMMAND_TIMBRES, Command.SCREEN, 1);
-        exit = new Command(COMMAND_EXIT, Command.EXIT, 0);
+        exit = new Command(COMMAND_EXIT, Command.EXIT, 4);
         back = new Command(COMMAND_BACK, Command.BACK, 0);
         ok = new Command(COMMAND_OK, Command.OK, 0);
         cancel = new Command(COMMAND_CANCEL, Command.CANCEL, 1);
