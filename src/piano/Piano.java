@@ -40,7 +40,6 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     private Display display;
 
     private NotePlayer player;
-    private boolean playerHasPrograms;
     private Thread playerThread;
 
     private PianoCanvas pianoCanvas;
@@ -75,9 +74,6 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
         keyPressed = new boolean[MIDI_KEYS];
         noteEvents = new Vector();
         listeners = new Vector(1);
-
-        // Initialize rest
-        playerHasPrograms = true;
     }
 
     /**
@@ -127,9 +123,6 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
                 display.setCurrent(alert, pianoCanvas);
                 System.exit(1);
             }
-
-            // Tone player does not have programs
-            playerHasPrograms = false;
 
             // Alert user about certain disability
             Alert alert = new Alert("Warning",
