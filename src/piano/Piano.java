@@ -11,6 +11,7 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.media.MediaException;
 import javax.microedition.midlet.MIDlet;
+import javax.microedition.rms.RecordStoreException;
 
 
 /**
@@ -53,6 +54,8 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
     private Form timbreForm;
     private TimbreInterface timbreInterface;
 
+    private Preferences preferences;
+
     private int octave;
     private boolean[] keyPressed;
     private int velocity;
@@ -87,15 +90,25 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
      */
     public void startApp()
     {
+        // Load preferences
+        try
+        {
+            preferences = new Preferences("Piano");
+        }
+        catch(RecordStoreException e)
+        {
+            e.printStackTrace();
+        }
+
         // Initialize piano model
-        octave = PIANO_FIRST_OCTAVE;
+        octave = preferences.getInt("Octave");
 
         for(int i = 0; i < MIDI_KEYS; i++)
             keyPressed[i] = false;
 
-        velocity = 100;
+        velocity = preferences.getInt("Velocity");
 
-        timbre = 0; // Acoustic piano
+        timbre = preferences.getInt("Timbre");
 
         // Get main display
         display = Display.getDisplay(this);
@@ -191,6 +204,21 @@ public class Piano extends MIDlet implements CommandListener, PianoModel, PianoN
             player.stop();
         }
         catch(MediaException e)
+        {
+            e.printStackTrace();
+        }
+
+        // Store preferences
+        preferences.set("Octave", octave);
+        preferences.set("Velocity", velocity);
+        preferences.set("Timbre", timbre);
+
+        // Save preferences
+        try
+        {
+            preferences.save();
+        }
+        catch(RecordStoreException e)
         {
             e.printStackTrace();
         }
