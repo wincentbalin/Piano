@@ -1,0 +1,42 @@
+Piano
+-----
+
+This is a simple piano-like instrument. Press keys on the keypad to play it.
+Be ready, though, that your device will not allow you to play more than
+two keys at one -- it is a rather prevalent design constraint.
+
+
+History
+-------
+
+The program began it's life as an exact copy of the Piano MIDlet
+from the book "Wireless Java Developing with J2ME, Second Edition"
+by Jonathan Knudsen, published by Apress, ISBN 1590590775 .
+
+Seeing that twelve keys on an usual cell phone keypad are
+as many as keys in an octave, I modified the MIDlet to be controlled
+by keypad buttons only.
+
+After using the resulting application and unnerving my choirmaster
+doing so, I approached some choir members from the mezzo-soprano voice
+and asked them about suggestions for improvements; the suggestions
+were:
+
+* making sounds of arbitrarily length and loudness
+* ability to switch timbres
+
+These suggestions went to the issues #4 and #1 respectively.
+The rest was technical.
+
+
+Source Code
+-----------
+
+The source code is packaged into the package piano. The code was
+separated after the MVC pattern as much as possible, the class
+PianoCanvas being both controller and view, the player classes
+(TonePlayer and MIDIPlayer) being views and the class Piano
+being both the program launcher and the model.
+
+The source code is well-commented and well-documented.
+
