@@ -5,6 +5,18 @@ This is a simple piano-like instrument. Press keys on the keypad to play it.
 Be ready, though, that your device will not allow you to play more than
 two keys at one -- it is a rather prevalent design constraint.
 
+Use arrow keys to change octave of the keyboard.
+
+You may change volume in the likewise named formular.
+
+If your device allows to switch timbre, a special formular
+will be available.
+
+Conversely, if your device does not have a tone generating capability
+at all, the program will show an error dialog and shut itself down.
+
+The settings you change are saved upon quitting the program.
+
 
 History
 -------
