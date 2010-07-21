@@ -23,7 +23,7 @@ public class Localization_de implements LocalizationInterface
             case ID_TIMBRES: return "Klangfarben";
             case ID_HELP_SECTION_INTRODUCTION_TITLE: return "";
             case ID_HELP_SECTION_INTRODUCTION_TEXT:
-                return "Dies ist ein simples Musikinstrument.";
+                return "Dies ist ein simpler Musikinstrument.";
             case ID_HELP_SECTION_PLAYING_TITLE: return "Bedienung";
             case ID_HELP_SECTION_PLAYING_TEXT:
                 return "Benutzen Sie die Telefontastatur, " +
@@ -41,7 +41,7 @@ public class Localization_de implements LocalizationInterface
                        "um die Oktave zu wechseln.";
             case ID_HELP_SECTION_COPYRIGHT_TITLE: return "Copyright";
             case ID_HELP_SECTION_COPYRIGHT_TEXT:
-                return "Copyright (C) 2010 Wincent Balin and Pitt Werhan";
+                return "Copyright (C) 2010 Wincent Balin";
             case ID_HELP_SECTION_THANKS_TITLE: return "Danksagungen";
             case ID_HELP_SECTION_THANKS_TEXT:
                 return "Ein großer Dank geht an meine Betatester " +

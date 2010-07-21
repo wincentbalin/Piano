@@ -5,11 +5,10 @@ import java.util.Vector;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
-    /**
+/**
  * Canvas of the Piano MIDlet
  *
  * @author Wincent Balin
- * @author Pitt Werhan
  */
 
 public class PianoCanvas extends Canvas implements PianoView, InstrumentController
@@ -40,28 +39,6 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
     public static final int KEYS_NOTES_DISTANCE = 10;
 
     /**
-     * Dimensions of the keys.
-     */
-    private int fontHeight;
-    private int whiteKeyWidth;
-    private int whiteKeyHeight;
-    private int blackKeyWidth;
-    private int blackKeyHeight;
-    private int blackKeyNarrowWidth;
-    private int whiteKeyNarrowWidth;
-    private int whiteKeyLesserHeight;
-
-    /**
-     * The current key pressed by the pointer and needed in pointerDragged().
-     */
-    private int currentPressedKey;
-    
-    /**
-     * Key Positions for pointer usage.
-     */
-    private int[][] keyPositions;
-
-    /**
      * Lookup table for the color of the keys.
      */
     public static final boolean[] WHITE_KEY =
@@ -85,8 +62,6 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
     private PianoModel model;
 
     private String octaveString;
-    
-    private boolean paintedFirstTime = false;
 
     /**
      * Constructor.
@@ -107,13 +82,6 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
 
         // Store model
         this.model = model;
-
-        // Calculate key positions for touchscreen
-        if (this.hasPointerEvents())
-        {
-            this.paintedFirstTime = true;
-            this.keyPositions = new int[12][2];
-        }
     }
 
     /**
@@ -130,17 +98,17 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
         final int width = getWidth();
         final int height = getHeight();
 
-        this.fontHeight = g.getFont().getHeight();
+        final int fontHeight = g.getFont().getHeight();
 
         // Calculate dimension of a key
-        this.whiteKeyWidth = (width - MARGIN * 2) / 7;
-        this.whiteKeyHeight = height -
+        final int whiteKeyWidth = (width - MARGIN * 2) / 7;
+        final int whiteKeyHeight = height -
                 (MARGIN + KEYS_NOTES_DISTANCE + fontHeight * 3);
-        this.blackKeyWidth = whiteKeyWidth / 2; // One half
-        this.blackKeyHeight = whiteKeyHeight / 2; // One half
-        this.blackKeyNarrowWidth = blackKeyWidth / 2;
-        this.whiteKeyNarrowWidth = whiteKeyWidth - blackKeyNarrowWidth;
-        this.whiteKeyLesserHeight = whiteKeyHeight - blackKeyHeight;
+        final int blackKeyWidth = whiteKeyWidth / 2; // One half
+        final int blackKeyHeight = whiteKeyHeight / 2; // One half
+        final int blackKeyNarrowWidth = blackKeyWidth / 2;
+        final int whiteKeyNarrowWidth = whiteKeyWidth - blackKeyNarrowWidth;
+        final int whiteKeyLesserHeight = whiteKeyHeight - blackKeyHeight;
 
         /* Draw background */
         g.setColor(WHITE_COLOR);
@@ -516,12 +484,6 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
                      width / 2,
                      oy,
                      Graphics.BOTTOM | Graphics.HCENTER);
-
-        if (this.paintedFirstTime)
-        {
-            calculateKeyPositions();
-            this.paintedFirstTime = false;
-        }
     }
 
     /**
@@ -633,179 +595,6 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
                     new InstrumentEvent(note, InstrumentEvent.KEY_RELEASED);
             sendEvent(ev, SINGLE_MODEL);
         }
-    }
-   
-     /**
-     * Calculate key positions for touchscreen use
-     */
-    private void calculateKeyPositions()
-    {
-        this.keyPositions[0][0] = MARGIN;
-        this.keyPositions[0][1] = MARGIN + this.whiteKeyWidth;
-
-        this.keyPositions[1][0] = MARGIN + this.whiteKeyNarrowWidth;
-        this.keyPositions[1][1] = this.keyPositions[1][0] + this.blackKeyWidth;
-
-        this.keyPositions[2][0] = this.keyPositions[0][1];
-        this.keyPositions[2][1] = this.keyPositions[2][0] + this.whiteKeyWidth;
-        
-        this.keyPositions[3][0] = this.keyPositions[1][1] + this.blackKeyWidth;
-        this.keyPositions[3][1] = this.keyPositions[3][0] + this.blackKeyWidth;
-
-        this.keyPositions[4][0] = this.keyPositions[2][1];
-        this.keyPositions[4][1] = this.keyPositions[4][0] + this.whiteKeyWidth;
-        
-        this.keyPositions[5][0] = this.keyPositions[4][1];
-        this.keyPositions[5][1] = this.keyPositions[5][0] + this.whiteKeyWidth;
-
-        this.keyPositions[6][0] = this.keyPositions[3][1]
-                + (2 * this.whiteKeyNarrowWidth);
-        this.keyPositions[6][1] = this.keyPositions[6][0] + this.blackKeyWidth;
-
-        this.keyPositions[7][0] = this.keyPositions[5][1];
-        this.keyPositions[7][1] = this.keyPositions[7][0] + this.whiteKeyWidth;
-
-        this.keyPositions[8][0] = this.keyPositions[6][1] + this.blackKeyWidth;
-        this.keyPositions[8][1] = this.keyPositions[8][0] + this.blackKeyWidth;
-
-        this.keyPositions[9][0] = this.keyPositions[7][1];
-        this.keyPositions[9][1] = this.keyPositions[9][0] + this.whiteKeyWidth;
-
-        this.keyPositions[10][0] = this.keyPositions[8][1] + this.blackKeyWidth;
-        this.keyPositions[10][1] = this.keyPositions[10][0]
-                + this.blackKeyWidth;
-
-        this.keyPositions[11][0] = this.keyPositions[9][1];
-        this.keyPositions[11][1] = this.keyPositions[11][0]
-                + this.whiteKeyWidth;
-    }
-
-    /*
-     * Determines keycode for coordinates of the pointer
-     * @param x x-coordinate value of the pointer
-     * @param y y-coordinate value of the pointer
-     * @return the keycode of the key pressed on the clavier
-     */
-    private int determinePressedKey(int x, int y)
-    {
-        //Check if pointer was pressed within clavier
-        if (x > MARGIN && x < (getWidth() - MARGIN)
-                && y > MARGIN && y < (MARGIN + this.whiteKeyHeight))
-        {
-            // Check if pointer is in uopper area where black keys are possible
-            if(y >= MARGIN && y <= (this.blackKeyHeight + MARGIN) )
-            {
-                if (x > this.keyPositions[0][0] && x < this.keyPositions[1][0])
-                    return KEY_NUM1;
-
-                if (x > this.keyPositions[1][0] && x < this.keyPositions[1][1])
-                    return KEY_NUM2;
-
-                if (x > this.keyPositions[1][1] && x < this.keyPositions[3][0])
-                    return KEY_NUM3;
-
-                if (x > this.keyPositions[3][0] && x < this.keyPositions[3][1])
-                    return KEY_NUM4;
-
-                if (x > this.keyPositions[3][1] && x < this.keyPositions[4][1])
-                    return KEY_NUM5;
-               
-                if (x > this.keyPositions[5][0] && x < this.keyPositions[6][0])
-                   return KEY_NUM6;
-
-                if (x > this.keyPositions[6][0] && x < this.keyPositions[6][1])
-                    return KEY_NUM7;
-               
-                if (x > this.keyPositions[6][1] && x < this.keyPositions[8][0])
-                   return KEY_NUM8;
-
-                if (x > this.keyPositions[8][0] && x < this.keyPositions[8][1])
-                    return KEY_NUM9;
-
-                if (x > this.keyPositions[8][1] && x < this.keyPositions[10][0])
-                    return KEY_STAR;
-
-                if (x > this.keyPositions[10][0]
-                        && x < this.keyPositions[10][1])
-                    return KEY_NUM0;
-                
-                if (x > this.keyPositions[10][1]
-                        && x < this.keyPositions[11][1])
-                    return KEY_POUND;
-           }
-            // Check only for white keys in the lower area
-           else
-           {
-                if (x > this.keyPositions[0][0] && x < this.keyPositions[0][1])
-                    return KEY_NUM1;
-                if (x > this.keyPositions[2][0] && x < this.keyPositions[2][1])
-                    return KEY_NUM3;
-                if (x > this.keyPositions[4][0] && x < this.keyPositions[4][1])
-                    return KEY_NUM5;
-                if (x > this.keyPositions[5][0] && x < this.keyPositions[5][1])
-                    return KEY_NUM6;
-                if (x > this.keyPositions[7][0] && x < this.keyPositions[7][1])
-                    return KEY_NUM8;
-                if (x > this.keyPositions[9][0] && x < this.keyPositions[9][1])
-                    return KEY_STAR;
-                if (x > this.keyPositions[11][0]
-                        && x < this.keyPositions[11][1])
-                    return KEY_POUND;
-           }
-        }
-        else
-        {
-            // Pointer not over clavier
-        }
-        return -1;
-    }
-
-     /**
-     * Handler of pointer pressed event
-     * @param x x-coordinate value of the pointer
-     * @param y y-coordinate value of the pointer
-     */
-    protected void pointerPressed(int x, int y)
-    {
-        this.currentPressedKey = determinePressedKey(x, y);
-        if (this.currentPressedKey != -1)
-            keyPressed(this.currentPressedKey);
-    }
-
-    /**
-     * Handler of pointer dragged event
-     * @param x x-coordinate value of the pointer
-     * @param y y-coordinate value of the pointer
-     */
-    protected void pointerDragged(int x, int y)
-    {
-        int draggedKey = determinePressedKey(x, y);
-        if (this.currentPressedKey != draggedKey)
-        {
-            keyReleased(this.currentPressedKey);
-            if (draggedKey != -1)
-                keyPressed(draggedKey);
-            this.currentPressedKey = draggedKey;
-        }
-    }
-
-    /**
-     * Handler of pointer released event
-     * @param x x-coordinate value of the pointer
-     * @param y y-coordinate value of the pointer
-     */
-    protected void pointerReleased(int x, int y)
-    {
-        this.currentPressedKey = determinePressedKey(x, y);
-        if (this.currentPressedKey != -1)
-            keyReleased(this.currentPressedKey);
-    }
-    /**
-     * Handler of size changed event
-     */
-    protected void sizeChanged(int w, int h) {
-        if (this.hasPointerEvents())
-            this.paintedFirstTime = true;
     }
 
     /**
