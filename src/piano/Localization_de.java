@@ -34,7 +34,10 @@ public class Localization_de implements LocalizationInterface
                        "Es ist nicht ausgeschlossen, dass Sie wegen " +
                        "der Einschränkungen in der Telefontastatur " +
                        "nicht mehr als eine oder zwei Tasten gleichzeitig " +
-                       "spielen können.\n";
+                       "spielen können.\n" +
+                       "Hat das Gerät einen berührungsempfindlichen " +
+                       "Bildschirm, können Sie direkt auf der abgebildeten " +
+                       "Klaviertastatur spielen.\n";
             case ID_HELP_SECTION_OCTAVE_TITLE: return "Oktavenwechsel";
             case ID_HELP_SECTION_OCTAVE_TEXT:
                 return "Benutzen Sie die Pfeiltasten, " +
