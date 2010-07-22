@@ -41,7 +41,7 @@ public class Localization_de implements LocalizationInterface
                        "um die Oktave zu wechseln.";
             case ID_HELP_SECTION_COPYRIGHT_TITLE: return "Copyright";
             case ID_HELP_SECTION_COPYRIGHT_TEXT:
-                return "Copyright (C) 2010 Wincent Balin and Pitt Werhan";
+                return "Copyright (C) 2010 Wincent Balin und Pitt Werhan";
             case ID_HELP_SECTION_THANKS_TITLE: return "Danksagungen";
             case ID_HELP_SECTION_THANKS_TEXT:
                 return "Ein großer Dank geht an meine Betatester " +
