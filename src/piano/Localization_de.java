@@ -23,7 +23,7 @@ public class Localization_de implements LocalizationInterface
             case ID_TIMBRES: return "Klangfarben";
             case ID_HELP_SECTION_INTRODUCTION_TITLE: return "";
             case ID_HELP_SECTION_INTRODUCTION_TEXT:
-                return "Dies ist ein simpler Musikinstrument.";
+                return "Dies ist ein simples Musikinstrument.";
             case ID_HELP_SECTION_PLAYING_TITLE: return "Bedienung";
             case ID_HELP_SECTION_PLAYING_TEXT:
                 return "Benutzen Sie die Telefontastatur, " +
