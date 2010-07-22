@@ -1,12 +1,12 @@
-PianoTouch
-----------
+Piano
+-----
 
-This is a simple piano-like instrument based on Piano written by Wincent Balin.
-PianoTouch additionally adds support for touchscreen input, if available.
+This is a simple piano-like instrument. Press keys on the keypad to play it.
+Be ready, though, that your device will not allow you to play more than
+two keys at one -- it is a rather prevalent design constraint.
 
-Touch the keys on the keypad oder use the numberkeys of your cell phone to play
-it. Be ready, though, that your device will not allow you to play more than two
-keys at one -- it is a rather prevalent design constraint.
+If your device happens to have a touchscreen, you may play the keyboard
+directly on screen. Changing octave on screen does not work yet, though.
 
 Use arrow keys to change octave of the keyboard.
 
