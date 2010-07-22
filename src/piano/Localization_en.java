@@ -40,7 +40,7 @@ public class Localization_en implements LocalizationInterface
                 return "Use arrow keys to change the octave.";
             case ID_HELP_SECTION_COPYRIGHT_TITLE: return "Copyright";
             case ID_HELP_SECTION_COPYRIGHT_TEXT:
-                return "Copyright (C) 2010 Wincent Balin";
+                return "Copyright (C) 2010 Wincent Balin and Pitt Werhan";
             case ID_HELP_SECTION_THANKS_TITLE: return "Thanks";
             case ID_HELP_SECTION_THANKS_TEXT:
                 return "Many thanks to my beta testers Birgit and Marina.";
