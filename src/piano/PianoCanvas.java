@@ -5,7 +5,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 
-    /**
+/**
  * Canvas of the Piano MIDlet
  *
  * @author Wincent Balin
@@ -57,9 +57,19 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
     private int currentPressedKey;
     
     /**
-     * Key Positions for pointer usage.
+     * Key positions for pointer usage.
      */
     private int[][] keyPositions;
+
+    /**
+     * Octave controls positions for pointer usage.
+     */
+    private int[][] octavePositions;
+
+    /**
+     * Width of a Character
+     */
+    private int charWidth;
 
     /**
      * Lookup table for the color of the keys.
@@ -113,6 +123,7 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
         {
             this.paintedFirstTime = true;
             this.keyPositions = new int[12][2];
+            this.octavePositions = new int[2][2];
         }
     }
 
@@ -519,7 +530,9 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
 
         if (this.paintedFirstTime)
         {
+            this.charWidth = g.getFont().stringWidth(" ");
             calculateKeyPositions();
+            calculateOctavePositions();
             this.paintedFirstTime = false;
         }
     }
@@ -581,7 +594,7 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
         int action = getGameAction(key);
 
         int octave = -1;
-
+        
         // Handle keyboard octave
         switch(action)
         {
@@ -598,6 +611,8 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
                                    InstrumentEvent.OCTAVE_DOWN;
             ev = new InstrumentEvent(0, octaveOperation);
             sendEvent(ev, SINGLE_MODEL);
+            if (model.getOctave() == 0 || model.getOctave() == -1)
+                calculateOctavePositions();
             return;
         }
     }
@@ -635,7 +650,7 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
         }
     }
    
-     /**
+    /**
      * Calculate key positions for touchscreen use
      */
     private void calculateKeyPositions()
@@ -678,6 +693,25 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
         this.keyPositions[11][0] = this.keyPositions[9][1];
         this.keyPositions[11][1] = this.keyPositions[11][0]
                 + this.whiteKeyWidth;
+     }
+
+    /**
+     * Calculate positions of octave controls for touchscreen use
+     */
+    private void calculateOctavePositions()
+    {
+        int negativeOctave = 0;
+        if (model.getOctave() < 0)
+            negativeOctave = this.charWidth / 2;
+                
+        this.octavePositions[0][0] = getWidth() / 2 + this.charWidth
+                - negativeOctave;
+        this.octavePositions[0][1] = this.octavePositions[0][0]
+                + this.charWidth;
+        this.octavePositions[1][0] = getWidth() / 2 + (this.charWidth * 5)
+                + negativeOctave;
+        this.octavePositions[1][1] = this.octavePositions[1][0]
+                + this.charWidth;
     }
 
     /*
@@ -753,9 +787,19 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
                     return KEY_POUND;
            }
         }
+        // Check if octave controls were pressed
+        else if (y > (getHeight() - this.fontHeight))
+        {
+            if (x > this.octavePositions[0][0]
+                    && x < this.octavePositions[0][1])
+                return -3;
+            if (x > this.octavePositions[1][0]
+                    && x < this.octavePositions[1][1])
+                return -4;
+        }
         else
         {
-            // Pointer not over clavier
+            // Pointer not over clavier nor over octave controls
         }
         return -1;
     }
@@ -786,6 +830,7 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
             if (draggedKey != -1)
                 keyPressed(draggedKey);
             this.currentPressedKey = draggedKey;
+            
         }
     }
 
