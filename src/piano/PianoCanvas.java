@@ -67,11 +67,6 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
     private int[][] octavePositions;
 
     /**
-     * Width of a Character
-     */
-    private int charWidth;
-
-    /**
      * Lookup table for the color of the keys.
      */
     public static final boolean[] WHITE_KEY =
@@ -96,7 +91,9 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
 
     private String octaveString;
     
-    private boolean paintedFirstTime = false;
+    private boolean sizeChanged = false;
+
+    private boolean octaveChanged = false;
 
     /**
      * Constructor.
@@ -121,7 +118,8 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
         // Calculate key positions for touchscreen
         if (this.hasPointerEvents())
         {
-            this.paintedFirstTime = true;
+            this.sizeChanged = true;
+            this.octaveChanged = true;
             this.keyPositions = new int[12][2];
             this.octavePositions = new int[2][2];
         }
@@ -528,12 +526,18 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
                      oy,
                      Graphics.BOTTOM | Graphics.HCENTER);
 
-        if (this.paintedFirstTime)
+        if (this.sizeChanged)
         {
-            this.charWidth = g.getFont().stringWidth(" ");
             calculateKeyPositions();
-            calculateOctavePositions();
-            this.paintedFirstTime = false;
+            this.sizeChanged = false;
+        }
+
+        if (this.octaveChanged)
+        {
+            calculateOctavePositions(g.getFont().stringWidth("<"),
+                    g.getFont().stringWidth(octaveBuffer.toString()),
+                    g.getFont().stringWidth(" " + model.getOctave() + " "));
+            this.octaveChanged = false;
         }
     }
 
@@ -612,7 +616,7 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
             ev = new InstrumentEvent(0, octaveOperation);
             sendEvent(ev, SINGLE_MODEL);
             if (model.getOctave() == 0 || model.getOctave() == -1)
-                calculateOctavePositions();
+                this.octaveChanged = true;
             return;
         }
     }
@@ -698,20 +702,18 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
     /**
      * Calculate positions of octave controls for touchscreen use
      */
-    private void calculateOctavePositions()
+    private void calculateOctavePositions(int charWidth, int octaveFullString,
+            int octaveValue)
     {
-        int negativeOctave = 0;
-        if (model.getOctave() < 0)
-            negativeOctave = this.charWidth / 2;
-                
-        this.octavePositions[0][0] = getWidth() / 2 + this.charWidth
-                - negativeOctave;
-        this.octavePositions[0][1] = this.octavePositions[0][0]
-                + this.charWidth;
-        this.octavePositions[1][0] = getWidth() / 2 + (this.charWidth * 5)
-                + negativeOctave;
-        this.octavePositions[1][1] = this.octavePositions[1][0]
-                + this.charWidth;
+        this.octavePositions[1][1] = (getWidth() / 2)
+                + (octaveFullString / 2);
+        this.octavePositions[1][0] = this.octavePositions[1][1]
+                - charWidth;
+        this.octavePositions[0][1] = this.octavePositions[1][0]
+                - octaveValue;
+        this.octavePositions[0][0] = this.octavePositions[0][1]
+                - charWidth;
+        repaint();
     }
 
     /*
@@ -848,9 +850,14 @@ public class PianoCanvas extends Canvas implements PianoView, InstrumentControll
     /**
      * Handler of size changed event
      */
-    protected void sizeChanged(int w, int h) {
+    protected void sizeChanged(int w, int h)
+    {
         if (this.hasPointerEvents())
-            this.paintedFirstTime = true;
+        {
+            this.sizeChanged = true;
+            this.octaveChanged = true;
+        }
+
     }
 
     /**
